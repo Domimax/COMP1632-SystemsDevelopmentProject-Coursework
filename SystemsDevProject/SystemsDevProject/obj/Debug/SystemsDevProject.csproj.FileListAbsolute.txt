@@ -7,3 +7,4 @@
 \\student.gre-ad.gre.ac.uk\USR\Vol2\ms8794c\Desktop\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csproj.CoreCompileInputs.cache
 \\student.gre-ad.gre.ac.uk\USR\Vol2\ms8794c\Desktop\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.exe
 \\student.gre-ad.gre.ac.uk\USR\Vol2\ms8794c\Desktop\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.pdb
+\\student.gre-ad.gre.ac.uk\USR\Vol2\ms8794c\Desktop\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.Form1.resources
