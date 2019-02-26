@@ -44,7 +44,7 @@ namespace SystemsDevProject
             OleDbConnection myConnection = new OleDbConnection(connection);
             return myConnection;
         }
-
+        /*
         //Method returns a List of all questions in a database.
         public List<Question> GetQuestions(string amount)
         {
@@ -238,5 +238,6 @@ namespace SystemsDevProject
                 connection.Close();
             }
         }
+    */
     }
 }
