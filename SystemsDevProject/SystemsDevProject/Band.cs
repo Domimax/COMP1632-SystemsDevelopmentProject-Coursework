@@ -1,9 +1,12 @@
-﻿namespace SystemsDevProject
+﻿using System.Collections.Generic;
+
+namespace SystemsDevProject
 {
     public class Band
     {
         public string BandNumber { get; set; }
         public string BandPrice { get; set; }
+        public List<Seat> BandSeats { get; set; }
 
         public Band()
         {
@@ -14,6 +17,7 @@
         {
             BandNumber = bandNumber;
             BandPrice = bandPrice;
+            BandSeats = new List<Seat>();
         }
     }
 }

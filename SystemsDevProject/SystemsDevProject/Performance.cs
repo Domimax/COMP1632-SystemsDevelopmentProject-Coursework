@@ -9,7 +9,6 @@ namespace SystemsDevProject
         public string PerformanceStatus { get; set; }
 
         public List<string> PerformanceCast { get; set; }
-        public List<Seat> PerformanceSeats { get; set; }
         public List<Band> PerformanceBands { get; set; }
 
 
@@ -23,7 +22,6 @@ namespace SystemsDevProject
             PerformanceDate = performanceDate;
             PerformanceStatus = performanceStatus;
             PerformanceCast = new List<string>();
-            PerformanceSeats = new List<Seat>();
             PerformanceBands = new List<Band>();
         }
     }

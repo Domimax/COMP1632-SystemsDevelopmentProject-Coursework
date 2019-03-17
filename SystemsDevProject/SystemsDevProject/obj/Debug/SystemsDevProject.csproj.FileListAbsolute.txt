@@ -8,3 +8,13 @@
 \\student.gre-ad.gre.ac.uk\USR\Vol2\ms8794c\Desktop\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.exe
 \\student.gre-ad.gre.ac.uk\USR\Vol2\ms8794c\Desktop\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.pdb
 \\student.gre-ad.gre.ac.uk\USR\Vol2\ms8794c\Desktop\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.Form1.resources
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csprojAssemblyReference.cache
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.Form1.resources
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.Properties.Resources.resources
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csproj.GenerateResource.cache
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csproj.CoreCompileInputs.cache
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.exe
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.pdb
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe.config
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.pdb

@@ -44,58 +44,29 @@ namespace SystemsDevProject
             OleDbConnection myConnection = new OleDbConnection(connection);
             return myConnection;
         }
-        /*
-        //Method returns a List of all questions in a database.
-        public List<Question> GetQuestions(string amount)
+
+        //Method returns a List of all plays in a database.
+        public List<Play> GetPlays()
         {
-            List<Question> questions = new List<Question>();
+            List<Play> plays = new List<Play>();
             OleDbConnection connection = GetOleDbConnection();
-            //Selects the amount of questions selected by the user from a database.
-            string query = "SELECT TOP  " + amount.ToString() + " * FROM Question;";
-            OleDbCommand questionCommand = new OleDbCommand(query, connection);
+            string query = "SELECT TOP 3 * FROM Play;";
+            OleDbCommand playCommand = new OleDbCommand(query, connection);
             try
             {
                 connection.Open();
-                OleDbDataReader questionReader = questionCommand.ExecuteReader();
-                while (questionReader.Read())
+                OleDbDataReader playReader = playCommand.ExecuteReader();
+                while (playReader.Read())
                 {
-                    int id = (int)questionReader["ID"];
-                    string questionText = (string)questionReader["QuestionText"];
-                    string questionType = (string)questionReader["QuestionType"];
-                    Question newQuestion = null;
-                    //A switch case is used to determine which kind of question has been extracted from a database.
-                    switch (questionType)
-                    {
-                        case "InputAnswer":
-                            newQuestion = new InputAnswerQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "MultipleChoice":
-                            newQuestion = new MultipleChoiceQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "Music":
-                            newQuestion = new MusicQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "Picture":
-                            newQuestion = new PictureQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "YesOrNo":
-                            newQuestion = new YesOrNoQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                    }
-                    //If an abnormal question type is discovered, an exception is thrown.
-                    if (newQuestion != null)
-                    {
-                        questions.Add(newQuestion);
-                    }
-                    else
-                    {
-                        throw new Exception("newQuestion object is null.");
-                    }
-                }
-                //Checking if there are any questions in the database at all.
-                if (questions.Count == 0)
-                {
-                    throw new Exception("Database is empty.");
+                    int id = (int)playReader["ID"];
+                    string playName = (string)playReader["PlayName"];
+                    int playDuration = (int)playReader["PlayDuration"];
+                    string pictureString = (string)playReader["PictureString"];
+                    Play newPlay = new Play();
+                    newPlay.PlayName = playName;
+                    newPlay.PlayDuration = playDuration;
+                    newPlay.PictureString = pictureString;
+                    plays.Add(newPlay);
                 }
             }
             catch (Exception ex)
@@ -106,9 +77,9 @@ namespace SystemsDevProject
             {
                 connection.Close();
             }
-            return questions;
+            return plays;
         }
-
+        /*
         //Returns a list of answers by using a provided id of a specific question.
         private List<Answer> GetAnswers(int questionId, OleDbConnection connection)
         {
@@ -238,6 +209,6 @@ namespace SystemsDevProject
                 connection.Close();
             }
         }
-    */
+        */
     }
 }

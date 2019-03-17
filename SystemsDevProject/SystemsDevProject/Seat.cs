@@ -2,18 +2,18 @@
 {
     public class Seat
     {
-        public Band SeatBand { get; set; }
         public string SeatNumber { get; set; }
+        public bool Occupied { get; set; }
 
         public Seat()
         {
 
         }
 
-        public Seat(Band seatBand, string seatNumber)
+        public Seat(string seatNumber, bool occupied)
         {
-            SeatBand = seatBand;
             SeatNumber = seatNumber;
+            Occupied = occupied;
         }
     }
 }
