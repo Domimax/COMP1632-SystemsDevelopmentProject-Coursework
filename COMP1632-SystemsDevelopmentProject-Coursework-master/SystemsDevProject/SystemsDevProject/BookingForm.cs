@@ -44,7 +44,6 @@ namespace SystemsDevProject
                 label2.Text = "Select Play";
                 comboBox2.Visible = true;
             }
-            comboBox2.SelectedIndex = 0;
         }
     }
 }
