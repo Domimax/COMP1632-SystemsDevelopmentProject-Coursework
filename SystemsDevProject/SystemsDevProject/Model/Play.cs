@@ -10,6 +10,7 @@ namespace SystemsDevProject
     {
         public string PlayName { get; set; }
         public int PlayDuration { get; set; }
+        public string PlayCast { get; set; }
         public string PictureString { get; set; }
 
         public List<Review> PlayReviews { get; set; }
