@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SystemsDevProject
 {
@@ -36,6 +38,217 @@ namespace SystemsDevProject
 
         }
 
+        //Dalia's stuff
+
+        //this method refreshes seats data and makes all seats available
+        public void refreshSeating(int id, BookingData bd)
+        {
+            String connection = @"Provider=Microsoft.JET.OLEDB.4.0; 
+				        Data Source =" + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"DB\SystemsDevProjectDB.mdb");
+            OleDbConnection myConnection = new OleDbConnection(connection);
+            //quert to insert booking data
+            string query = "Insert into Booking Values(" + id + "," + "'" + bd.getcategory() + "'," + bd.getseatnumber() + ",'" + "available" + "')";
+            OleDbCommand Command = new OleDbCommand(query, myConnection);
+            try
+            {
+                Command.CommandType = CommandType.Text;
+                myConnection.Open();
+                //adding parameters to query
+                Command.Parameters.AddWithValue("@SeatType", bd.getcategory());
+                Command.Parameters.AddWithValue("@Number", bd.getseatnumber());
+                Command.Parameters.AddWithValue("@Availability", "available");
+                Command.ExecuteNonQuery();
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.ToString());
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                myConnection.Close();
+            }
+
+        }
+        //insert booking data into db 
+        public void InsertList(List<BookingData> bookinglist)
+        {
+            foreach (BookingData item in bookinglist)
+            {
+                OleDbConnection connection = GetOleDbConnection();
+                //updating the booking values
+                string query = "Update Booking SET  Availability='booked' where SeatType='" + item.getcategory() + "' and Number=" + item.getseatnumber();
+                OleDbCommand Command = new OleDbCommand(query, connection);
+                try
+                {
+
+                    connection.Open();
+                    //query parameters
+                    Command.CommandType = CommandType.Text;
+                    Command.Parameters.AddWithValue("@Availability", "booked");
+
+                    Command.Parameters.AddWithValue("@SeatType", item.getcategory());
+                    Command.Parameters.AddWithValue("@Number", item.getseatnumber());
+                    Command.ExecuteNonQuery();
+
+                }
+
+
+                catch (Exception ex)
+                {
+                    //    MessageBox.Show(ex.ToString());
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+        public List<BookingData> getBookingData()
+        {
+            //create a list of booking data
+            List<BookingData> bookinglist = new List<BookingData>();
+            OleDbConnection connection = GetOleDbConnection();
+            //write query to retreive all data
+            string query = "SELECT * from Booking ";
+            OleDbCommand Command = new OleDbCommand(query, connection);
+            try
+            {
+                connection.Open();
+                OleDbDataReader Reader = Command.ExecuteReader();
+                //reading each row after query execution
+                while (Reader.Read())
+                {
+                    int id = (int)Reader["ID"];
+                    string SeatType = (string)Reader["SeatType"];
+                    int Number = (int)Reader["Number"];
+                    string Availability = (string)Reader["Availability"];
+
+                    //creating object from each row and adding into booking list
+                    BookingData BD = new BookingData(Number, SeatType, Availability);
+                    bookinglist.Add(BD);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //   MessageBox.Show(ex.ToString());
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return bookinglist;
+
+        }
+
+        public void InsertCardDetails(CardDetails cd)
+        {
+
+            //insert query to add card details in database
+            OleDbConnection connection = GetOleDbConnection();
+            string query = "insert into carddetails values ('" + cd.tickepurchase + "','" + cd.cardnumber + "','" + cd.cardtype + "','" + cd.MM + "','" + cd.YY + "','" + cd.CVV + "')";
+
+            OleDbCommand Command = new OleDbCommand(query, connection);
+            try
+            {
+
+                connection.Open();
+                //adding parameters to query
+                Command.CommandType = CommandType.Text;
+
+
+                Command.Parameters.AddWithValue("@purchaselocation", cd.tickepurchase);
+
+                Command.Parameters.AddWithValue("@CardNumber", cd.cardnumber);
+
+                Command.Parameters.AddWithValue("@Type", cd.cardtype);
+                Command.Parameters.AddWithValue("@ExpiryDateMM", cd.MM);
+                Command.Parameters.AddWithValue("@ExpiryDateDD", cd.YY);
+                Command.Parameters.AddWithValue("@CVV", cd.CVV);
+
+                Command.ExecuteNonQuery();
+
+            }
+
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                //System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        //Roshaans stuff
+
+        //Get connection MY METHOD
+        public static OleDbConnection GetConnection()
+        {
+            String connectionString;
+            connectionString = @"Provider=Microsoft.JET.OLEDB.4.0;Data Source=I:\SystemsDev.mdb";
+            return new OleDbConnection(connectionString);
+        }
+
+        //Method to add a review to the database
+        public void WriteReview(string name, string review, DateTime date)
+        {
+            OleDbConnection connection = GetConnection();
+            //OleDbConnection connection = GetOleDbConnection();
+            string query = "INSERT INTO Review( [Date and Time of attendance], [Name of Performance], Review) VALUES( '" + date + "' , " + review + " )";
+            OleDbCommand cmd = new OleDbCommand(query, connection);
+            try
+            {
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed. Error " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public List<String> GetPerformance(string s, List<String> list)
+        {
+            OleDbConnection connection = GetConnection();
+            string query = ("SELECT * FROM Performance WHERE [Type of performance]='" + s + "' ");
+            OleDbCommand cmd = new OleDbCommand(query, connection);
+            OleDbDataReader reader;
+            list.Add("test");
+            list.Clear();
+            try
+            {
+                connection.Open();
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader["Name of"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error. Could not perform the requested action. Error: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return list;
+        }
+
         // Method returns a database connection.
         private OleDbConnection GetOleDbConnection()
         {
@@ -44,58 +257,29 @@ namespace SystemsDevProject
             OleDbConnection myConnection = new OleDbConnection(connection);
             return myConnection;
         }
-        /*
-        //Method returns a List of all questions in a database.
-        public List<Question> GetQuestions(string amount)
+
+        //Method returns a List of all plays in a database.
+        public List<Play> GetPlays()
         {
-            List<Question> questions = new List<Question>();
+            List<Play> plays = new List<Play>();
             OleDbConnection connection = GetOleDbConnection();
-            //Selects the amount of questions selected by the user from a database.
-            string query = "SELECT TOP  " + amount.ToString() + " * FROM Question;";
-            OleDbCommand questionCommand = new OleDbCommand(query, connection);
+            string query = "SELECT TOP 3 * FROM Play;";
+            OleDbCommand playCommand = new OleDbCommand(query, connection);
             try
             {
                 connection.Open();
-                OleDbDataReader questionReader = questionCommand.ExecuteReader();
-                while (questionReader.Read())
+                OleDbDataReader playReader = playCommand.ExecuteReader();
+                while (playReader.Read())
                 {
-                    int id = (int)questionReader["ID"];
-                    string questionText = (string)questionReader["QuestionText"];
-                    string questionType = (string)questionReader["QuestionType"];
-                    Question newQuestion = null;
-                    //A switch case is used to determine which kind of question has been extracted from a database.
-                    switch (questionType)
-                    {
-                        case "InputAnswer":
-                            newQuestion = new InputAnswerQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "MultipleChoice":
-                            newQuestion = new MultipleChoiceQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "Music":
-                            newQuestion = new MusicQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "Picture":
-                            newQuestion = new PictureQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "YesOrNo":
-                            newQuestion = new YesOrNoQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                    }
-                    //If an abnormal question type is discovered, an exception is thrown.
-                    if (newQuestion != null)
-                    {
-                        questions.Add(newQuestion);
-                    }
-                    else
-                    {
-                        throw new Exception("newQuestion object is null.");
-                    }
-                }
-                //Checking if there are any questions in the database at all.
-                if (questions.Count == 0)
-                {
-                    throw new Exception("Database is empty.");
+                    int id = (int)playReader["ID"];
+                    string playName = (string)playReader["PlayName"];
+                    int playDuration = (int)playReader["PlayDuration"];
+                    string pictureString = (string)playReader["PictureString"];
+                    Play newPlay = new Play();
+                    newPlay.PlayName = playName;
+                    newPlay.PlayDuration = playDuration;
+                    newPlay.PictureString = pictureString;
+                    plays.Add(newPlay);
                 }
             }
             catch (Exception ex)
@@ -106,9 +290,9 @@ namespace SystemsDevProject
             {
                 connection.Close();
             }
-            return questions;
+            return plays;
         }
-
+        /*
         //Returns a list of answers by using a provided id of a specific question.
         private List<Answer> GetAnswers(int questionId, OleDbConnection connection)
         {
@@ -238,6 +422,6 @@ namespace SystemsDevProject
                 connection.Close();
             }
         }
-    */
+        */
     }
 }
