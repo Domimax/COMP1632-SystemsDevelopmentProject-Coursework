@@ -12,9 +12,13 @@ namespace SystemsDevProject
 {
     public partial class BookingForm : Form
     {
-        public BookingForm()
+        public Form UpperForm { get; set; }
+
+        public BookingForm(Form upperForm)
         {
             InitializeComponent();
+            UpperForm = upperForm;
+            this.Show();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -44,6 +48,12 @@ namespace SystemsDevProject
                 label2.Text = "Select Play";
                 comboBox2.Visible = true;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            UpperForm.Show();
         }
     }
 }

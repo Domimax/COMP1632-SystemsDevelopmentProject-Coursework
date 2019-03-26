@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.IO;
 using System.Windows.Forms;
+using SystemsDevProject.Model;
 
 namespace SystemsDevProject
 {
@@ -263,7 +264,7 @@ namespace SystemsDevProject
         {
             List<Play> plays = new List<Play>();
             OleDbConnection connection = GetOleDbConnection();
-            string query = "SELECT TOP 3 * FROM Play;";
+            string query = "SELECT * FROM Play;";
             OleDbCommand playCommand = new OleDbCommand(query, connection);
             try
             {
@@ -274,11 +275,14 @@ namespace SystemsDevProject
                     int id = (int)playReader["ID"];
                     string playName = (string)playReader["PlayName"];
                     int playDuration = (int)playReader["PlayDuration"];
+                    string playCast = (string)playReader["PlayCast"];
                     string pictureString = (string)playReader["PictureString"];
                     Play newPlay = new Play();
                     newPlay.PlayName = playName;
                     newPlay.PlayDuration = playDuration;
+                    newPlay.PlayCast = playCast;
                     newPlay.PictureString = pictureString;
+                    newPlay.PlayPerformances = GetPerformances(id, connection);
                     plays.Add(newPlay);
                 }
             }
@@ -292,6 +296,159 @@ namespace SystemsDevProject
             }
             return plays;
         }
+
+        //Method returns a List of all performances in a database.
+        public List<Performance> GetPerformances(int playId, OleDbConnection connection)
+        {
+            List<Performance> performances = new List<Performance>();
+            string query = "SELECT * FROM Performance WHERE PlayID = " + playId + ";";
+            OleDbCommand performanceCommand = new OleDbCommand(query, connection);
+            try
+            {
+                OleDbDataReader performanceReader = performanceCommand.ExecuteReader();
+                while (performanceReader.Read())
+                {
+                    int id = (int)performanceReader["ID"];
+                    DateTime performanceDate = (DateTime)performanceReader["PerformanceDate"];
+                    string performanceStatus = (string)performanceReader["PerformanceStatus"];
+                    Performance newPerformance = new Performance();
+                    newPerformance.PerformanceDate = performanceDate;
+                    newPerformance.PerformanceStatus = performanceStatus;
+                    performances.Add(newPerformance);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            return performances;
+        }
+
+        //Method returns a user based on the provided username(or ID), password and type in a database.
+        public User GetUser(string username, string password, string userType)
+        {
+            User user = null;
+            OleDbConnection connection = GetOleDbConnection();
+            int userID = -1;
+            string typeQuery;
+            if (userType == "Customer")
+            {
+                typeQuery = "SELECT * FROM Customer WHERE Username = \"" + username + "\";";
+                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
+                user = new Customer();
+                try
+                {
+                    connection.Open();
+                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
+                    while (typeReader.Read())
+                    {
+                        int id = (int)typeReader["ID"];
+                        DateTime dateOfBirth = (DateTime)typeReader["DateOfBirth"];
+                        userID = (int)typeReader["UserID"];
+                        ((Customer)user).DateOfBirth = dateOfBirth;
+                        ((Customer)user).Username = username;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+            }
+            else if (userType == "Employee")
+            {
+                typeQuery = "SELECT * FROM Employee WHERE ID = " + int.Parse(username) + ";";
+                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
+                user = new Employee();
+                try
+                {
+                    connection.Open();
+                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
+                    while (typeReader.Read())
+                    {
+                        int id = (int)typeReader["ID"];
+                        string role = (string)typeReader["Role"];
+                        int salary = (int)typeReader["Salary"];
+                        userID = (int)typeReader["UserID"];
+                        ((Employee)user).Role = role;
+                        ((Employee)user).Salary = salary;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+            }
+            else if (userType == "Agency")
+            {
+                typeQuery = "SELECT * FROM Agency WHERE ID = " + int.Parse(username) + ";";
+                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
+                user = new Agency();
+                try
+                {
+                    connection.Open();
+                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
+                    while (typeReader.Read())
+                    {
+                        int id = (int)typeReader["ID"];
+                        string agencyName = (string)typeReader["AgencyName"];
+                        userID = (int)typeReader["UserID"];
+                        ((Agency)user).AgencyName = agencyName;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+            }
+            connection.Close();
+            if (userID == -1)
+            {
+                return null;
+            }
+            else
+            {
+                connection = GetOleDbConnection();
+                connection.Open();
+                string userQuery = "SELECT * FROM Users WHERE Password = \"" + password + "\";";
+                OleDbCommand userCommand = new OleDbCommand(userQuery, connection);
+                try
+                {
+                    OleDbDataReader userReader = userCommand.ExecuteReader();
+                    while (userReader.Read())
+                    {
+                        int id = (int)userReader["ID"];
+                        string firstName = (string)userReader["FirstName"];
+                        string lastName = (string)userReader["LastName"];
+                        string address = (string)userReader["Address"];
+                        string mobileNumber = (string)userReader["MobileNumber"];
+                        string emailAddress = (string)userReader["EmailAddress"];
+                        user.FirstName = firstName;
+                        user.LastName = lastName;
+                        user.Address = address;
+                        user.MobileNumber = mobileNumber;
+                        user.EmailAddress = emailAddress;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+                if (user.FirstName == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return user;
+                }
+            }
+        }
+
+
         /*
         //Returns a list of answers by using a provided id of a specific question.
         private List<Answer> GetAnswers(int questionId, OleDbConnection connection)
