@@ -8,7 +8,6 @@ namespace SystemsDevProject.Model
 {
     public class Employee : User
     {
-        public int EmployeeID { get; set; }
         public string Role { get; set; }
         public int Salary { get; set; }
     }

@@ -23,3 +23,4 @@ C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.PlaysListForm.resources
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.PlayInfoForm.resources
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.LoginForm.resources
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.RegisterForm.resources

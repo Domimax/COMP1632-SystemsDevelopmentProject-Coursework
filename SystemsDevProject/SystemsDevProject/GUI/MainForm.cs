@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SystemsDevProject.GUI;
 using SystemsDevProject.Model;
 
 namespace SystemsDevProject
 {
-    public partial class MainForm : Form
+    public partial class MainForm : Form, ILogin
     {
         public List<Play> CurrentPlays { get; set; }
         public User LoggedInUser { get; set; }
@@ -31,6 +25,15 @@ namespace SystemsDevProject
             pictureBox1.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CurrentPlays[0].PictureString + ".jpg");
             pictureBox2.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CurrentPlays[1].PictureString + ".jpg");
             pictureBox3.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CurrentPlays[2].PictureString + ".jpg");
+        }
+
+        public void UpdateLoggedInUserName()
+        {
+            this.label2.Text = "Logged in as: " + LoggedInUser.FirstName + " " + LoggedInUser.LastName;
+        }
+
+        public Label getLabel2() {
+            return label2;
         }
 
         //code for the 'write a review' button
@@ -57,6 +60,11 @@ namespace SystemsDevProject
         {
             this.Hide();
             PlaysListForm playsListForm = new PlaysListForm(this);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            LoginForm loginForm = new LoginForm(this, this);
         }
     }
 }

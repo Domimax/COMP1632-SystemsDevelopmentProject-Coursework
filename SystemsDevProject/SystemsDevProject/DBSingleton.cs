@@ -400,15 +400,13 @@ namespace SystemsDevProject
                     System.Diagnostics.Debug.WriteLine("Exception: " + ex);
                 }
             }
-            connection.Close();
             if (userID == -1)
             {
+                connection.Close();
                 return null;
             }
             else
             {
-                connection = GetOleDbConnection();
-                connection.Open();
                 string userQuery = "SELECT * FROM Users WHERE Password = \"" + password + "\";";
                 OleDbCommand userCommand = new OleDbCommand(userQuery, connection);
                 try
@@ -447,7 +445,62 @@ namespace SystemsDevProject
                 }
             }
         }
+/*
+        public void RegisterEmployee(Employee employee) {
+            OleDbConnection connection = GetOleDbConnection();
+            string typeQuery = "SELECT ID FROM Score;";
+            OleDbCommand maxIDCommand = new OleDbCommand(query, connection);
+            int maxID = 0;
+            try
+            {
+                connection.Open();
+                OleDbDataReader maxIDReader = maxIDCommand.ExecuteReader();
+                while (maxIDReader.Read())
+                {
+                    if (maxID < (int)maxIDReader["ID"])
+                    {
+                        maxID = (int)maxIDReader["ID"];
+                    }
+                }
+                maxID++;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            //A query used to insert a new tuple into the table.
+            query = "INSERT INTO Score(ID, CorrectPercentage, Completed, PlayerName, TimeTook, CorrectAnswers, QuestionNumber)" +
+                "VALUES (" + maxID + " , " + score.CorrectPercentage + " , #" + score.Completed.Date + "# , '" +
+                 score.PlayerName + "' , " + score.TimeTook + " , " + score.CorrectAnswers + " , " + score.QuestionNumber + ");";
+            OleDbCommand scoreCommand = new OleDbCommand(query, connection);
+            try
+            {
+                connection.Open();
+                scoreCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        */
+        public void RegisterAgency(Agency agency) {
 
+        }
+
+        public void RegisterCustomer(Customer customer) { }
+
+        private void RegisterUser() {
+
+        }
 
         /*
         //Returns a list of answers by using a provided id of a specific question.
