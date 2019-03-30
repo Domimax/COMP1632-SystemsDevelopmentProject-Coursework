@@ -25,6 +25,7 @@ namespace SystemsDevProject.GUI
 
         public void UpdateLayout()
         {
+            label7.Hide();
             label9.Hide();
             dateTimePicker1.Hide();
             dateTimePicker1.Value = DateTime.Now;
@@ -51,6 +52,7 @@ namespace SystemsDevProject.GUI
             }
             else
             {
+                label7.Show();
                 label9.Show();
                 dateTimePicker1.Show();
             }
@@ -73,7 +75,6 @@ namespace SystemsDevProject.GUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-            UpperForm.Close();
             this.Close();
         }
 
@@ -81,40 +82,35 @@ namespace SystemsDevProject.GUI
         {
             if (radioButton2.Checked)
             {
-                if (UpperForm.UpperMainForm.LoggedInUser != null)
+                if (UpperForm.UpperMainForm.LoggedInUser != null || !UpperForm.UpperMainForm.LoggedInUser.GetType().Equals(typeof(Employee)))
                 {
-                    if (!UpperForm.UpperMainForm.LoggedInUser.GetType().Equals(typeof(Employee)))
+                    if (CheckAllInputs("Employee"))
                     {
-                        MessageBox.Show("You must be logged in as an employee to be able to register another employee.");
-                    }
-                    else
-                    {
-                        if (CheckAllInputs("Employee"))
-                        {
-                            Employee employee = new Employee();
-                            //DBSingleton.GetDBSingletonInstance.RegisterEmployee(employee);
-                        }
+                        Employee employee = new Employee(textBox8.Text, int.Parse(textBox9.Text));
+                        employee.InitialiseUser(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text,
+                            textBox5.Text, textBox6.Text);
+                        DBSingleton.GetDBSingletonInstance.RegisterEmployee(employee, textBox7.Text);
+                        MessageBox.Show("You have registered succesfully.");
+                        this.Close();
                     }
                 }
-                else {
+                else
+                {
                     MessageBox.Show("You must be logged in as an employee to be able to register another employee.");
                 }
             }
             else if (radioButton3.Checked)
             {
-                if (UpperForm.UpperMainForm.LoggedInUser != null)
+                if (UpperForm.UpperMainForm.LoggedInUser != null || !UpperForm.UpperMainForm.LoggedInUser.GetType().Equals(typeof(Employee)))
                 {
-                    if (!UpperForm.UpperMainForm.LoggedInUser.GetType().Equals(typeof(Employee)))
+                    if (CheckAllInputs("Agency"))
                     {
-                        MessageBox.Show("You must be logged in as an employee to be able to register an agency.");
-                    }
-                    else
-                    {
-                        if (CheckAllInputs("Agency"))
-                        {
-                            Agency agency = new Agency();
-                            // DBSingleton.GetDBSingletonInstance.RegisterAgency(agency);
-                        }
+                        Agency agency = new Agency(textBox8.Text);
+                        agency.InitialiseUser(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text,
+                            textBox5.Text, textBox6.Text);
+                        DBSingleton.GetDBSingletonInstance.RegisterAgency(agency, textBox7.Text);
+                        MessageBox.Show("You have registered succesfully.");
+                        this.Close();
                     }
                 }
                 else
@@ -126,17 +122,20 @@ namespace SystemsDevProject.GUI
             {
                 if (CheckAllInputs("Customer"))
                 {
-                    Customer customer = new Customer();
-                    //  DBSingleton.GetDBSingletonInstance.RegisterCustomer(customer);
+                    Customer customer = new Customer(dateTimePicker1.Value);
+                    customer.InitialiseUser(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text,
+                        textBox5.Text, textBox6.Text);
+                    DBSingleton.GetDBSingletonInstance.RegisterCustomer(customer, textBox7.Text);
+                    MessageBox.Show("You have registered succesfully.");
+                    this.Close();
                 }
             }
-
         }
 
         private bool CheckAllInputs(string inputType)
         {
             if (textBox1.Text != "" && textBox2.Text != "" && textBox3.Text != "" && textBox4.Text != "" &&
-                textBox5.Text != "" && textBox6.Text != "" && textBox7.Text != "")
+                textBox5.Text != "" && textBox7.Text != "")
             {
                 if (inputType == "Employee")
                 {
@@ -157,7 +156,7 @@ namespace SystemsDevProject.GUI
                 }
                 else
                 {
-                    if ((DateTime.Now.Subtract(dateTimePicker1.Value)).TotalDays/365 < 16.0)
+                    if ((DateTime.Now.Subtract(dateTimePicker1.Value)).TotalDays / 365 < 16.0 && textBox6.Text != "")
                     {
                         MessageBox.Show("You must be at least 16 years of age to register.");
                         return false;
@@ -170,6 +169,11 @@ namespace SystemsDevProject.GUI
             }
             MessageBox.Show("Something went wrong. Make sure you filled in all the text boxes correctly.");
             return false;
+        }
+
+        private void RegisterForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            UpperForm.Close();
         }
     }
 }

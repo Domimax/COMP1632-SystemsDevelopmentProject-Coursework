@@ -8,7 +8,18 @@ namespace SystemsDevProject.Model
 {
     public class Customer : User
     {
+        public int CustomerID { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public string Username { get; set; }
+
+        public Customer(int customerID, DateTime dateOfBirth)
+        {
+            CustomerID = customerID;
+            DateOfBirth = dateOfBirth;
+        }
+
+        public Customer(DateTime dateOfBirth)
+        {
+            DateOfBirth = dateOfBirth;
+        }
     }
 }

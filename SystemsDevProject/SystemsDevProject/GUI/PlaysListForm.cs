@@ -69,6 +69,12 @@ namespace SystemsDevProject.GUI
             this.label3.Text = "Logged in as: " + UpperForm.LoggedInUser.FirstName + " " + UpperForm.LoggedInUser.LastName;
         }
 
+        public void UpdateEnabledProperty(bool enabled)
+        {
+            this.Enabled = enabled;
+            this.Focus();
+        }
+
         private void PlaysListForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (UpperForm.Visible == false) {

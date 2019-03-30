@@ -9,5 +9,6 @@ namespace SystemsDevProject.GUI
     public interface ILogin
     {
         void UpdateLoggedInUserName();
+        void UpdateEnabledProperty(bool enabled);
     }
 }

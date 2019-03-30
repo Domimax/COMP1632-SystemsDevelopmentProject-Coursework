@@ -324,145 +324,35 @@ namespace SystemsDevProject
             return performances;
         }
 
-        //Method returns a user based on the provided username(or ID), password and type in a database.
-        public User GetUser(string username, string password, string userType)
+        //Method returns a user based on the provided username, password.
+        public User GetUser(string username, string password)
         {
             User user = null;
-            OleDbConnection connection = GetOleDbConnection();
-            int userID = -1;
-            string typeQuery;
-            if (userType == "Customer")
-            {
-                typeQuery = "SELECT * FROM Customer WHERE Username = \"" + username + "\";";
-                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
-                user = new Customer();
-                try
-                {
-                    connection.Open();
-                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
-                    while (typeReader.Read())
-                    {
-                        int id = (int)typeReader["ID"];
-                        DateTime dateOfBirth = (DateTime)typeReader["DateOfBirth"];
-                        userID = (int)typeReader["UserID"];
-                        ((Customer)user).DateOfBirth = dateOfBirth;
-                        ((Customer)user).Username = username;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-                }
-            }
-            else if (userType == "Employee")
-            {
-                typeQuery = "SELECT * FROM Employee WHERE ID = " + int.Parse(username) + ";";
-                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
-                user = new Employee();
-                try
-                {
-                    connection.Open();
-                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
-                    while (typeReader.Read())
-                    {
-                        int id = (int)typeReader["ID"];
-                        string role = (string)typeReader["Role"];
-                        int salary = (int)typeReader["Salary"];
-                        userID = (int)typeReader["UserID"];
-                        ((Employee)user).Role = role;
-                        ((Employee)user).Salary = salary;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-                }
-            }
-            else if (userType == "Agency")
-            {
-                typeQuery = "SELECT * FROM Agency WHERE ID = " + int.Parse(username) + ";";
-                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
-                user = new Agency();
-                try
-                {
-                    connection.Open();
-                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
-                    while (typeReader.Read())
-                    {
-                        int id = (int)typeReader["ID"];
-                        string agencyName = (string)typeReader["AgencyName"];
-                        userID = (int)typeReader["UserID"];
-                        ((Agency)user).AgencyName = agencyName;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-                }
-            }
-            if (userID == -1)
-            {
-                connection.Close();
-                return null;
-            }
-            else
-            {
-                string userQuery = "SELECT * FROM Users WHERE Password = \"" + password + "\";";
-                OleDbCommand userCommand = new OleDbCommand(userQuery, connection);
-                try
-                {
-                    OleDbDataReader userReader = userCommand.ExecuteReader();
-                    while (userReader.Read())
-                    {
-                        int id = (int)userReader["ID"];
-                        string firstName = (string)userReader["FirstName"];
-                        string lastName = (string)userReader["LastName"];
-                        string address = (string)userReader["Address"];
-                        string mobileNumber = (string)userReader["MobileNumber"];
-                        string emailAddress = (string)userReader["EmailAddress"];
-                        user.FirstName = firstName;
-                        user.LastName = lastName;
-                        user.Address = address;
-                        user.MobileNumber = mobileNumber;
-                        user.EmailAddress = emailAddress;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-                }
-                finally
-                {
-                    connection.Close();
-                }
-                if (user.FirstName == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return user;
-                }
-            }
-        }
-/*
-        public void RegisterEmployee(Employee employee) {
-            OleDbConnection connection = GetOleDbConnection();
-            string typeQuery = "SELECT ID FROM Score;";
-            OleDbCommand maxIDCommand = new OleDbCommand(query, connection);
-            int maxID = 0;
+            OleDbConnection connection = GetOleDbConnection();           
+            string userQuery = "SELECT * FROM [User] WHERE Username = '" + username + "' AND Password = '" + password + "';";
+            OleDbCommand userCommand = new OleDbCommand(userQuery, connection);
             try
             {
                 connection.Open();
-                OleDbDataReader maxIDReader = maxIDCommand.ExecuteReader();
-                while (maxIDReader.Read())
+                OleDbDataReader userReader = userCommand.ExecuteReader();
+                while (userReader.Read())
                 {
-                    if (maxID < (int)maxIDReader["ID"])
+                    if ((string)userReader["UserType"] == "Employee")
                     {
-                        maxID = (int)maxIDReader["ID"];
+                        user = GetEmployee(connection, (int)userReader["ID"]);
                     }
+                    else if ((string)userReader["UserType"] == "Agency")
+                    {
+                        user = GetAgency(connection, (int)userReader["ID"]);
+                    }
+                    else
+                    {
+                        user = GetCustomer(connection, (int)userReader["ID"]);
+                    }
+                    user.InitialiseUser((int)userReader["ID"], (string)userReader["FirstName"], (string)userReader["LastName"],
+                        (string)userReader["Address"], (string)userReader["MobileNumber"], (string)userReader["EmailAddress"],
+                        (string)userReader["Username"]);
                 }
-                maxID++;
             }
             catch (Exception ex)
             {
@@ -472,15 +362,81 @@ namespace SystemsDevProject
             {
                 connection.Close();
             }
+            return user;
+        }
+
+        private Employee GetEmployee(OleDbConnection connection, int userID)
+        {
+            string query = "SELECT * FROM Employee WHERE UserID = " + userID + ";";
+            OleDbCommand command = new OleDbCommand(query, connection);
+            Employee employee = null;
+            try
+            {
+                OleDbDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    employee = new Employee((int)reader["ID"], (string)reader["Role"], (int)reader["Salary"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            return employee;
+        }
+
+        private Agency GetAgency(OleDbConnection connection, int userID)
+        {
+            string query = "SELECT * FROM Agency WHERE UserID = " + userID + ";";
+            OleDbCommand command = new OleDbCommand(query, connection);
+            Agency agency = null;
+            try
+            {
+                OleDbDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    agency = new Agency((int)reader["ID"], (string)reader["AgencyName"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            return agency;
+        }
+
+        private Customer GetCustomer(OleDbConnection connection, int userID)
+        {
+            string query = "SELECT * FROM Customer WHERE UserID = " + userID + ";";
+            OleDbCommand command = new OleDbCommand(query, connection);
+            Customer customer = null;
+            try
+            {
+                OleDbDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    customer = new Customer((int)reader["ID"], (DateTime)reader["DateOfBirth"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            return customer;
+        }
+
+        public void RegisterEmployee(Employee employee, string password)
+        {
+            OleDbConnection connection = GetOleDbConnection();
+            int userID = RegisterUser(connection, employee, password, "Agency");
             //A query used to insert a new tuple into the table.
-            query = "INSERT INTO Score(ID, CorrectPercentage, Completed, PlayerName, TimeTook, CorrectAnswers, QuestionNumber)" +
-                "VALUES (" + maxID + " , " + score.CorrectPercentage + " , #" + score.Completed.Date + "# , '" +
-                 score.PlayerName + "' , " + score.TimeTook + " , " + score.CorrectAnswers + " , " + score.QuestionNumber + ");";
-            OleDbCommand scoreCommand = new OleDbCommand(query, connection);
+            string employeeQuery = "INSERT INTO Employee (Role, Salary, UserID)" +
+                " VALUES ('" + employee.Role + "', '" + employee.Salary + "', '" + userID + "');";
+            OleDbCommand employeeCommand = new OleDbCommand(employeeQuery, connection);
             try
             {
                 connection.Open();
-                scoreCommand.ExecuteNonQuery();
+                employeeCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
@@ -491,15 +447,76 @@ namespace SystemsDevProject
                 connection.Close();
             }
         }
-        */
-        public void RegisterAgency(Agency agency) {
 
+        public void RegisterAgency(Agency agency, string password)
+        {
+            OleDbConnection connection = GetOleDbConnection();
+            int userID = RegisterUser(connection, agency, password, "Agency");
+            //A query used to insert a new tuple into the table.
+            string agencyQuery = "INSERT INTO Agency (AgencyName, UserID)" +
+                " VALUES ('" + agency.AgencyName + "', '" + userID + "');";
+            OleDbCommand agencyCommand = new OleDbCommand(agencyQuery, connection);
+            try
+            {
+                connection.Open();
+                agencyCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
 
-        public void RegisterCustomer(Customer customer) { }
+        public void RegisterCustomer(Customer customer, string password)
+        {
+            OleDbConnection connection = GetOleDbConnection();
+            int userID = RegisterUser(connection, customer, password, "Customer");
+            string customerQuery = "INSERT INTO Customer (DateOfBirth, UserID)" +
+                " VALUES ('" + customer.DateOfBirth + "', '" + userID + "');";
+            OleDbCommand customerCommand = new OleDbCommand(customerQuery, connection);
+            try
+            {
+                connection.Open();
+                customerCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
 
-        private void RegisterUser() {
-
+        private int RegisterUser(OleDbConnection connection, User user, string password, string type)
+        {
+            int userID = -1;
+            string userQuery = "INSERT INTO [User] (FirstName, LastName, Address, MobileNumber, EmailAddress, Username, [Password], UserType) " +
+                 "VALUES ('" + user.FirstName + "' , '" + user.LastName + "' , '" + user.Address + "' , '" + user.MobileNumber +
+                 "' , '" + user.EmailAddress + "' , '" + user.Username + "' , '" + password + "' , '" + type + "');";
+            OleDbCommand userCommand = new OleDbCommand(userQuery, connection);
+            string userIDQuery = "SELECT MAX(ID) FROM [User];";
+            OleDbCommand userIDCommand = new OleDbCommand(userIDQuery, connection);
+            try
+            {
+                connection.Open();
+                userCommand.ExecuteNonQuery();
+                userID = (int)userIDCommand.ExecuteScalar();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return userID;
         }
 
         /*

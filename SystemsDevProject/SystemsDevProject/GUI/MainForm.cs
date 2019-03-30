@@ -9,31 +9,22 @@ namespace SystemsDevProject
 {
     public partial class MainForm : Form, ILogin
     {
-        public List<Play> CurrentPlays { get; set; }
         public User LoggedInUser { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
-            LoadPlays();
-        }
-
-        private void LoadPlays()
-        {
-            CurrentPlays = DBSingleton.GetDBSingletonInstance.GetPlays();
             LoggedInUser = null;
-            pictureBox1.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CurrentPlays[0].PictureString + ".jpg");
-            pictureBox2.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CurrentPlays[1].PictureString + ".jpg");
-            pictureBox3.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, CurrentPlays[2].PictureString + ".jpg");
         }
-
+        
         public void UpdateLoggedInUserName()
         {
             this.label2.Text = "Logged in as: " + LoggedInUser.FirstName + " " + LoggedInUser.LastName;
         }
 
-        public Label getLabel2() {
-            return label2;
+        public void UpdateEnabledProperty(bool enabled) {
+            this.Enabled = enabled;
+            this.Focus();
         }
 
         //code for the 'write a review' button
@@ -41,12 +32,6 @@ namespace SystemsDevProject
         {
             ReviewForm form = new ReviewForm();
             form.Show();
-        }
-
-        //code for the 'discount' button
-        private void button4_Click(object sender, EventArgs e)
-        {
-
         }
 
         //code for the 'make a booking' button
@@ -65,6 +50,7 @@ namespace SystemsDevProject
         private void button1_Click(object sender, EventArgs e)
         {
             LoginForm loginForm = new LoginForm(this, this);
+            this.Enabled = false;
         }
     }
 }

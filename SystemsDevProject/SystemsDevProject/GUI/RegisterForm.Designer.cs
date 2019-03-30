@@ -213,6 +213,7 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(133, 22);
             this.textBox7.TabIndex = 17;
+            this.textBox7.UseSystemPasswordChar = true;
             // 
             // dateTimePicker1
             // 
@@ -334,6 +335,7 @@
             this.Controls.Add(this.label1);
             this.Name = "RegisterForm";
             this.Text = "RegisterForm";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.RegisterForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -65,6 +65,10 @@ namespace SystemsDevProject.GUI
             {
                 MessageBox.Show("You have to login first to be able to book a date.");
             }
+            else
+            {
+                SeatPlan seatPlan = new SeatPlan(this);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -76,6 +80,12 @@ namespace SystemsDevProject.GUI
         {
             UpperForm.UpdateLoggedInUserName();
             this.label5.Text = "Logged in as: " + UpperForm.UpperForm.LoggedInUser.FirstName + " " + UpperForm.UpperForm.LoggedInUser.LastName;
+        }
+
+        public void UpdateEnabledProperty(bool enabled)
+        {
+            this.Enabled = enabled;
+            this.Focus();
         }
 
         private void PlayInfoForm_FormClosed(object sender, FormClosedEventArgs e)

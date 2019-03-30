@@ -22,53 +22,23 @@ namespace SystemsDevProject.GUI
             InitializeComponent();
             UpperMainForm = upperMainForm;
             UpperForm = upperForm;
+            UpperForm.UpdateEnabledProperty(false);
             this.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            User user;
-            if (checkBox1.Checked && checkBox2.Checked) {
-                MessageBox.Show("You can\'t login as both employee and agency");
+            User user = DBSingleton.GetDBSingletonInstance.GetUser(textBox1.Text, textBox2.Text);
+            if (user == null)
+            {
+                MessageBox.Show("Something went wrong. Please make sure you input all details correctly.");
             }
-            else if (checkBox1.Checked) {
-                user = DBSingleton.GetDBSingletonInstance.GetUser(textBox1.Text, textBox2.Text, "Employee");
-                if (user == null)
-                {
-                    MessageBox.Show("Something went wrong. Please make sure you input all details correctly.");
-                }
-                else {
-                    UpperMainForm.LoggedInUser = user;
-                    UpperForm.UpdateLoggedInUserName();
-                    MessageBox.Show("You have logged in as: " + UpperMainForm.LoggedInUser.FirstName);
-                    this.Close();
-                }
-            } else if (checkBox2.Checked) {
-                user = DBSingleton.GetDBSingletonInstance.GetUser(textBox1.Text, textBox2.Text, "Agency");
-                if (user == null)
-                {
-                    MessageBox.Show("Something went wrong. Please make sure you input all details correctly.");
-                }
-                else
-                {
-                    UpperMainForm.LoggedInUser = user;
-                    UpperForm.UpdateLoggedInUserName();
-                    MessageBox.Show("You have logged in as: " + UpperMainForm.LoggedInUser.FirstName);
-                    this.Close();
-                }
-            } else {
-                user = DBSingleton.GetDBSingletonInstance.GetUser(textBox1.Text, textBox2.Text, "Customer");
-                if (user == null)
-                {
-                    MessageBox.Show("Something went wrong. Please make sure you input all details correctly.");
-                }
-                else
-                {
-                    UpperMainForm.LoggedInUser = user;
-                    UpperForm.UpdateLoggedInUserName();
-                    MessageBox.Show("You have logged in as: " + UpperMainForm.LoggedInUser.FirstName);
-                    this.Close();
-                }
+            else
+            {
+                UpperMainForm.LoggedInUser = user;
+                UpperForm.UpdateLoggedInUserName();
+                MessageBox.Show("You have logged in as: " + UpperMainForm.LoggedInUser.FirstName);
+                this.Close();
             }
         }
 
@@ -76,6 +46,11 @@ namespace SystemsDevProject.GUI
         {
             this.Hide();
             RegisterForm registerForm = new RegisterForm(this);
+        }
+
+        private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            UpperForm.UpdateEnabledProperty(true);
         }
     }
 }
