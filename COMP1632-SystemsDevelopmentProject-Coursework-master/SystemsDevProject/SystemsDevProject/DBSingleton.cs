@@ -1,8 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.OleDb;
 using System.IO;
+using System.Windows.Forms;
+using SystemsDevProject.Model;
 
 namespace SystemsDevProject
 {
@@ -37,8 +39,238 @@ namespace SystemsDevProject
 
         }
 
+        //Dalia's stuff
+
+        //this method refreshes seats data and makes all seats available
+        public void refreshSeating(int id, BookingData bd)
+        {
+            String connection = @"Provider=Microsoft.JET.OLEDB.4.0; 
+				        Data Source =" + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"DB\SystemsDevProjectDB.mdb");
+            OleDbConnection myConnection = new OleDbConnection(connection);
+            //quert to insert booking data
+            string query = "Insert into Booking Values(" + id + "," + "'" + bd.getcategory() + "'," + bd.getseatnumber() + ",'" + "available" + "')";
+            OleDbCommand Command = new OleDbCommand(query, myConnection);
+            try
+            {
+                Command.CommandType = CommandType.Text;
+                myConnection.Open();
+                //adding parameters to query
+                Command.Parameters.AddWithValue("@SeatType", bd.getcategory());
+                Command.Parameters.AddWithValue("@Number", bd.getseatnumber());
+                Command.Parameters.AddWithValue("@Availability", "available");
+                Command.ExecuteNonQuery();
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.ToString());
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                myConnection.Close();
+            }
+
+        }
+        //insert booking data into db 
+        public void InsertList(List<BookingData> bookinglist)
+        {
+            foreach (BookingData item in bookinglist)
+            {
+                OleDbConnection connection = GetOleDbConnection();
+                //updating the booking values
+                string query = "Update Booking SET  Availability='booked' where SeatType='" + item.getcategory() + "' and Number=" + item.getseatnumber();
+                OleDbCommand Command = new OleDbCommand(query, connection);
+                try
+                {
+
+                    connection.Open();
+                    //query parameters
+                    Command.CommandType = CommandType.Text;
+                    Command.Parameters.AddWithValue("@Availability", "booked");
+
+                    Command.Parameters.AddWithValue("@SeatType", item.getcategory());
+                    Command.Parameters.AddWithValue("@Number", item.getseatnumber());
+                    Command.ExecuteNonQuery();
+
+                }
+
+
+                catch (Exception ex)
+                {
+                    //    MessageBox.Show(ex.ToString());
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+        public List<BookingData> getBookingData()
+        {
+            //create a list of booking data
+            List<BookingData> bookinglist = new List<BookingData>();
+            OleDbConnection connection = GetOleDbConnection();
+            //write query to retreive all data
+            string query = "SELECT * from Booking ";
+            OleDbCommand Command = new OleDbCommand(query, connection);
+            try
+            {
+                connection.Open();
+                OleDbDataReader Reader = Command.ExecuteReader();
+                //reading each row after query execution
+                while (Reader.Read())
+                {
+                    int id = (int)Reader["ID"];
+                    string SeatType = (string)Reader["SeatType"];
+                    int Number = (int)Reader["Number"];
+                    string Availability = (string)Reader["Availability"];
+
+                    //creating object from each row and adding into booking list
+                    BookingData BD = new BookingData(Number, SeatType, Availability);
+                    bookinglist.Add(BD);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //   MessageBox.Show(ex.ToString());
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return bookinglist;
+
+        }
+
+        public void InsertCardDetails(CardDetails cd)
+        {
+
+            //insert query to add card details in database
+            OleDbConnection connection = GetOleDbConnection();
+            string query = "insert into carddetails values ('" + cd.tickepurchase + "','" + cd.cardnumber + "','" + cd.cardtype + "','" + cd.MM + "','" + cd.YY + "','" + cd.CVV + "')";
+
+            OleDbCommand Command = new OleDbCommand(query, connection);
+            try
+            {
+
+                connection.Open();
+                //adding parameters to query
+                Command.CommandType = CommandType.Text;
+
+
+                Command.Parameters.AddWithValue("@purchaselocation", cd.tickepurchase);
+
+                Command.Parameters.AddWithValue("@CardNumber", cd.cardnumber);
+
+                Command.Parameters.AddWithValue("@Type", cd.cardtype);
+                Command.Parameters.AddWithValue("@ExpiryDateMM", cd.MM);
+                Command.Parameters.AddWithValue("@ExpiryDateDD", cd.YY);
+                Command.Parameters.AddWithValue("@CVV", cd.CVV);
+
+                Command.ExecuteNonQuery();
+
+            }
+
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+                //System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        //Roshaans stuff
+
+        //Get connection MY METHOD
+        public static OleDbConnection GetConnection()
+        {
+            String connectionString;
+            connectionString = @"Provider=Microsoft.JET.OLEDB.4.0;Data Source=I:\SystemsDev.mdb";
+            return new OleDbConnection(connectionString);
+        }
+
+        //Method to add a review to the database
+        public void WriteReview(string name, string review, DateTime date)
+        {
+            OleDbConnection connection = GetConnection();
+            //OleDbConnection connection = GetOleDbConnection();
+            string query = "INSERT INTO Review( [Date and Time of attendance], [Name of Performance], Review) VALUES( '" + date + "' , " + review + " )";
+            OleDbCommand cmd = new OleDbCommand(query, connection);
+            try
+            {
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed. Error " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void InsertReview(string playName, DateTime date, string review, int rating)
+        {
+            OleDbConnection connection = GetOleDbConnection();
+            string query = "INSERT INTO Review ()VALUES( '" + date + "' , " + review + "' , " + playName + "' , " + rating + " )";
+            OleDbCommand playCommand = new OleDbCommand(query, connection);
+
+            try
+            {
+                connection.Open();
+                playCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Sorry. Unable to save your review right now. Please try again later");
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public List<String> GetPerformance(string s, List<String> list)
+        {
+            OleDbConnection connection = GetConnection();
+            string query = ("SELECT * FROM Performance WHERE [Type of performance]='" + s + "' ");
+            OleDbCommand cmd = new OleDbCommand(query, connection);
+            OleDbDataReader reader;
+
+            list.Clear();
+            try
+            {
+                connection.Open();
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader["Name of"].ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error. Could not perform the requested action. Error: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return list;
+        }
+
         // Method returns a database connection.
-        /*
         private OleDbConnection GetOleDbConnection()
         {
             String connection = @"Provider=Microsoft.JET.OLEDB.4.0; 
@@ -46,59 +278,32 @@ namespace SystemsDevProject
             OleDbConnection myConnection = new OleDbConnection(connection);
             return myConnection;
         }
-        */
-        /*
-        //Method returns a List of all questions in a database.
-        public List<Question> GetQuestions(string amount)
+
+        //Method returns a List of all plays in a database.
+        public List<Play> GetPlays()
         {
-            List<Question> questions = new List<Question>();
+            List<Play> plays = new List<Play>();
             OleDbConnection connection = GetOleDbConnection();
-            //Selects the amount of questions selected by the user from a database.
-            string query = "SELECT TOP  " + amount.ToString() + " * FROM Question;";
-            OleDbCommand questionCommand = new OleDbCommand(query, connection);
+            string query = "SELECT * FROM Play;";
+            OleDbCommand playCommand = new OleDbCommand(query, connection);
             try
             {
                 connection.Open();
-                OleDbDataReader questionReader = questionCommand.ExecuteReader();
-                while (questionReader.Read())
+                OleDbDataReader playReader = playCommand.ExecuteReader();
+                while (playReader.Read())
                 {
-                    int id = (int)questionReader["ID"];
-                    string questionText = (string)questionReader["QuestionText"];
-                    string questionType = (string)questionReader["QuestionType"];
-                    Question newQuestion = null;
-                    //A switch case is used to determine which kind of question has been extracted from a database.
-                    switch (questionType)
-                    {
-                        case "InputAnswer":
-                            newQuestion = new InputAnswerQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "MultipleChoice":
-                            newQuestion = new MultipleChoiceQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "Music":
-                            newQuestion = new MusicQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "Picture":
-                            newQuestion = new PictureQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                        case "YesOrNo":
-                            newQuestion = new YesOrNoQuestion(id, questionText, questionType, GetAnswers(id, connection));
-                            break;
-                    }
-                    //If an abnormal question type is discovered, an exception is thrown.
-                    if (newQuestion != null)
-                    {
-                        questions.Add(newQuestion);
-                    }
-                    else
-                    {
-                        throw new Exception("newQuestion object is null.");
-                    }
-                }
-                //Checking if there are any questions in the database at all.
-                if (questions.Count == 0)
-                {
-                    throw new Exception("Database is empty.");
+                    int id = (int)playReader["ID"];
+                    string playName = (string)playReader["PlayName"];
+                    int playDuration = (int)playReader["PlayDuration"];
+                    string playCast = (string)playReader["PlayCast"];
+                    string pictureString = (string)playReader["PictureString"];
+                    Play newPlay = new Play();
+                    newPlay.PlayName = playName;
+                    newPlay.PlayDuration = playDuration;
+                    newPlay.PlayCast = playCast;
+                    newPlay.PictureString = pictureString;
+                    newPlay.PlayPerformances = GetPerformances(id, connection);
+                    plays.Add(newPlay);
                 }
             }
             catch (Exception ex)
@@ -109,9 +314,221 @@ namespace SystemsDevProject
             {
                 connection.Close();
             }
-            return questions;
+            return plays;
         }
 
+        public Receipt printReceipt(DateTime date, int i, double a, string performance, string fileName)
+        {
+            Receipt r = new Receipt(date, i, a, performance);
+            r.printReceipt(fileName);
+            return r;
+        }
+        //Method returns a List of all performances in a database.
+        public List<Performance> GetPerformances(int playId, OleDbConnection connection)
+        {
+            List<Performance> performances = new List<Performance>();
+            string query = "SELECT * FROM Performance WHERE PlayID = " + playId + ";";
+            OleDbCommand performanceCommand = new OleDbCommand(query, connection);
+            try
+            {
+                OleDbDataReader performanceReader = performanceCommand.ExecuteReader();
+                while (performanceReader.Read())
+                {
+                    int id = (int)performanceReader["ID"];
+                    DateTime performanceDate = (DateTime)performanceReader["PerformanceDate"];
+                    string performanceStatus = (string)performanceReader["PerformanceStatus"];
+                    Performance newPerformance = new Performance();
+                    newPerformance.PerformanceDate = performanceDate;
+                    newPerformance.PerformanceStatus = performanceStatus;
+                    performances.Add(newPerformance);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            return performances;
+        }
+
+        //Method returns a user based on the provided username(or ID), password and type in a database.
+        public User GetUser(string username, string password, string userType)
+        {
+            User user = null;
+            OleDbConnection connection = GetOleDbConnection();
+            int userID = -1;
+            string typeQuery;
+            if (userType == "Customer")
+            {
+                typeQuery = "SELECT * FROM Customer WHERE Username = \"" + username + "\";";
+                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
+                user = new Customer();
+                try
+                {
+                    connection.Open();
+                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
+                    while (typeReader.Read())
+                    {
+                        int id = (int)typeReader["ID"];
+                        DateTime dateOfBirth = (DateTime)typeReader["DateOfBirth"];
+                        userID = (int)typeReader["UserID"];
+                        ((Customer)user).DateOfBirth = dateOfBirth;
+                        ((Customer)user).Username = username;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+            }
+            else if (userType == "Employee")
+            {
+                typeQuery = "SELECT * FROM Employee WHERE ID = " + int.Parse(username) + ";";
+                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
+                user = new Employee();
+                try
+                {
+                    connection.Open();
+                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
+                    while (typeReader.Read())
+                    {
+                        int id = (int)typeReader["ID"];
+                        string role = (string)typeReader["Role"];
+                        int salary = (int)typeReader["Salary"];
+                        userID = (int)typeReader["UserID"];
+                        ((Employee)user).Role = role;
+                        ((Employee)user).Salary = salary;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+            }
+            else if (userType == "Agency")
+            {
+                typeQuery = "SELECT * FROM Agency WHERE ID = " + int.Parse(username) + ";";
+                OleDbCommand typeCommand = new OleDbCommand(typeQuery, connection);
+                user = new Agency();
+                try
+                {
+                    connection.Open();
+                    OleDbDataReader typeReader = typeCommand.ExecuteReader();
+                    while (typeReader.Read())
+                    {
+                        int id = (int)typeReader["ID"];
+                        string agencyName = (string)typeReader["AgencyName"];
+                        userID = (int)typeReader["UserID"];
+                        ((Agency)user).AgencyName = agencyName;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+            }
+            if (userID == -1)
+            {
+                connection.Close();
+                return null;
+            }
+            else
+            {
+                string userQuery = "SELECT * FROM Users WHERE Password = \"" + password + "\";";
+                OleDbCommand userCommand = new OleDbCommand(userQuery, connection);
+                try
+                {
+                    OleDbDataReader userReader = userCommand.ExecuteReader();
+                    while (userReader.Read())
+                    {
+                        int id = (int)userReader["ID"];
+                        string firstName = (string)userReader["FirstName"];
+                        string lastName = (string)userReader["LastName"];
+                        string address = (string)userReader["Address"];
+                        string mobileNumber = (string)userReader["MobileNumber"];
+                        string emailAddress = (string)userReader["EmailAddress"];
+                        user.FirstName = firstName;
+                        user.LastName = lastName;
+                        user.Address = address;
+                        user.MobileNumber = mobileNumber;
+                        user.EmailAddress = emailAddress;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+                if (user.FirstName == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return user;
+                }
+            }
+        }
+/*
+        public void RegisterEmployee(Employee employee) {
+            OleDbConnection connection = GetOleDbConnection();
+            string typeQuery = "SELECT ID FROM Score;";
+            OleDbCommand maxIDCommand = new OleDbCommand(query, connection);
+            int maxID = 0;
+            try
+            {
+                connection.Open();
+                OleDbDataReader maxIDReader = maxIDCommand.ExecuteReader();
+                while (maxIDReader.Read())
+                {
+                    if (maxID < (int)maxIDReader["ID"])
+                    {
+                        maxID = (int)maxIDReader["ID"];
+                    }
+                }
+                maxID++;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            //A query used to insert a new tuple into the table.
+            query = "INSERT INTO Score(ID, CorrectPercentage, Completed, PlayerName, TimeTook, CorrectAnswers, QuestionNumber)" +
+                "VALUES (" + maxID + " , " + score.CorrectPercentage + " , #" + score.Completed.Date + "# , '" +
+                 score.PlayerName + "' , " + score.TimeTook + " , " + score.CorrectAnswers + " , " + score.QuestionNumber + ");";
+            OleDbCommand scoreCommand = new OleDbCommand(query, connection);
+            try
+            {
+                connection.Open();
+                scoreCommand.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        */
+        public void RegisterAgency(Agency agency) {
+
+        }
+
+        public void RegisterCustomer(Customer customer) { }
+
+        private void RegisterUser() {
+
+        }
+
+        /*
         //Returns a list of answers by using a provided id of a specific question.
         private List<Answer> GetAnswers(int questionId, OleDbConnection connection)
         {
@@ -192,63 +609,7 @@ namespace SystemsDevProject
             }
             return scores;
         }
-        */
-        //Get connection MY METHOD
-        public static OleDbConnection GetConnection()
-        {
-            String connectionString;
-            connectionString = @"Provider=Microsoft.JET.OLEDB.4.0;Data Source=I:\SystemsDev.mdb";
-            return new OleDbConnection(connectionString);
-        }
-        //Method to add a review to the database
-        public void WriteReview(string name, string review, DateTime date)
-        {
-            OleDbConnection connection = GetConnection();
-            //OleDbConnection connection = GetOleDbConnection();
-            string query = "INSERT INTO Reviews( [Date and Time of attendance], [Name of Performance], Review) VALUES( '" + date + "' , " + review + " )";
-            OleDbCommand cmd = new OleDbCommand(query, connection);
-            try
-            {
-                connection.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed. Error " + ex);
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-        public List<String> GetPerformance(string s, List<String> list)
-        {
-            OleDbConnection connection = GetConnection();
-            string query = ("SELECT * FROM Performances WHERE [Type of performance]='" + s + "' ");
-            OleDbCommand cmd = new OleDbCommand(query, connection);
-            OleDbDataReader reader;
-            list.Add("test");
-            list.Clear();
-            try
-            {
-                connection.Open();
-                reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    list.Add(reader["Name of"].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error. Could not perform the requested action. Error: " + ex);
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return list;
-        }
-            /*
+
         //Method is used to store the score of a completed quiz to a database.
         public void AddScore(Score score)
         {
@@ -297,6 +658,6 @@ namespace SystemsDevProject
                 connection.Close();
             }
         }
-    */
+        */
     }
 }
