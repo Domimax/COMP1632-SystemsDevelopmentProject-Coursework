@@ -10,11 +10,19 @@ namespace SystemsDevProject
     public partial class MainForm : Form, ILogin
     {
         public User LoggedInUser { get; set; }
+        public Booking CurrentBooking { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
             LoggedInUser = null;
+            CurrentBooking = new Booking();
+            CurrentBooking.BookingTickets = new List<Ticket>();
+            CurrentBooking.TotalCost = 0.0;
+            pictureBox1.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "LionKing" + ".jpg");
+            pictureBox2.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Faust" + ".jpg");
+            pictureBox3.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dracula" + ".jpg");
+            pictureBox4.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Basket" + ".jpg");
         }
         
         public void UpdateLoggedInUserName()
@@ -51,6 +59,12 @@ namespace SystemsDevProject
         {
             LoginForm loginForm = new LoginForm(this, this);
             this.Enabled = false;
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            BookingForm bookingForm = new BookingForm(this);
+            this.Hide();
         }
     }
 }

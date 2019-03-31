@@ -8,6 +8,7 @@ namespace SystemsDevProject
 {
     public class Play
     {
+        public int PlayID { get; set; }
         public string PlayName { get; set; }
         public int PlayDuration { get; set; }
         public string PlayCast { get; set; }

@@ -5,6 +5,7 @@ namespace SystemsDevProject
 {
     public class Performance
     {
+        public int PerformanceID { get; set; }
         public DateTime PerformanceDate { get; set; }
         public string PerformanceStatus { get; set; }
         public List<Band> PerformanceBands { get; set; }

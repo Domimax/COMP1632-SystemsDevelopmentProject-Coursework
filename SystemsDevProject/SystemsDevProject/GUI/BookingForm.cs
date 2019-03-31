@@ -1,59 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace SystemsDevProject
 {
     public partial class BookingForm : Form
     {
-        public Form UpperForm { get; set; }
+        public MainForm UpperForm { get; set; }
 
-        public BookingForm(Form upperForm)
+        public BookingForm(MainForm upperForm)
         {
             InitializeComponent();
             UpperForm = upperForm;
+            List<Play> plays = DBSingleton.GetDBSingletonInstance.GetPlays();
+            label5.Text = String.Format("{0, 15} {1, 30} {2, 15} {3, 15}", "Name of Play", "Date of Performance", "Seat", "Price");
+            foreach (Play play in plays)
+            {
+                foreach (Performance performance in play.PlayPerformances)
+                {
+                    foreach (Band band in performance.PerformanceBands)
+                    {
+                        foreach (Seat seat in band.BandSeats)
+                        {
+                            foreach (Ticket ticket in UpperForm.CurrentBooking.BookingTickets)
+                            {
+                                if (ticket.TicketSeat.SeatID == seat.SeatID)
+                                {
+                                    listBox1.Items.Add(String.Format("{0, 15} {1, 30} {2, 15} {3, 15}", play.PlayName, performance.PerformanceDate, band.BandNumber + seat.SeatNumber,
+                                        ticket.TicketPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            label4.Text = UpperForm.CurrentBooking.TotalCost.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"));
             this.Show();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            List<String> performances = new List<String>();
-            performances.Clear();
-            comboBox2.Items.Clear();
-
-            //Check which option has been selected - indexing begins from 0
-            if (comboBox1.SelectedIndex == 0)
-            {
-                DBSingleton.GetDBSingletonInstance.GetPerformance("Musical", performances);
-                for (int i = 0; i < performances.Count; i++)
-                {
-                    comboBox2.Items.Add(performances[i]);
-                }
-                label2.Text = "Select Musical";
-                comboBox2.Visible = true;
-            }
-            else if (comboBox1.SelectedIndex == 1)
-            {
-                DBSingleton.GetDBSingletonInstance.GetPerformance("Play", performances);
-                for (int i = 0; i < performances.Count; i++)
-                {
-                    comboBox2.Items.Add(performances[i]);
-                }
-                label2.Text = "Select Play";
-                comboBox2.Visible = true;
-            }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             this.Close();
             UpperForm.Show();
+        }
+
+        private void BookingForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

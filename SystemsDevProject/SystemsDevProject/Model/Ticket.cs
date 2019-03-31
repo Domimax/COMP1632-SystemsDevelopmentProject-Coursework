@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SystemsDevProject
 {
-    class Ticket
+    public class Ticket
     {
 
         public double TicketPrice { get; set; }

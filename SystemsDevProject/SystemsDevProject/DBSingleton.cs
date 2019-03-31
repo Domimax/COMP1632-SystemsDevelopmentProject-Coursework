@@ -259,7 +259,6 @@ namespace SystemsDevProject
             return myConnection;
         }
 
-        //Method returns a List of all plays in a database.
         public List<Play> GetPlays()
         {
             List<Play> plays = new List<Play>();
@@ -278,6 +277,7 @@ namespace SystemsDevProject
                     string playCast = (string)playReader["PlayCast"];
                     string pictureString = (string)playReader["PictureString"];
                     Play newPlay = new Play();
+                    newPlay.PlayID = id;
                     newPlay.PlayName = playName;
                     newPlay.PlayDuration = playDuration;
                     newPlay.PlayCast = playCast;
@@ -297,8 +297,7 @@ namespace SystemsDevProject
             return plays;
         }
 
-        //Method returns a List of all performances in a database.
-        public List<Performance> GetPerformances(int playId, OleDbConnection connection)
+        private List<Performance> GetPerformances(int playId, OleDbConnection connection)
         {
             List<Performance> performances = new List<Performance>();
             string query = "SELECT * FROM Performance WHERE PlayID = " + playId + ";";
@@ -312,8 +311,10 @@ namespace SystemsDevProject
                     DateTime performanceDate = (DateTime)performanceReader["PerformanceDate"];
                     string performanceStatus = (string)performanceReader["PerformanceStatus"];
                     Performance newPerformance = new Performance();
+                    newPerformance.PerformanceID = id;
                     newPerformance.PerformanceDate = performanceDate;
                     newPerformance.PerformanceStatus = performanceStatus;
+                    newPerformance.PerformanceBands = GetBands(id, connection);
                     performances.Add(newPerformance);
                 }
             }
@@ -324,11 +325,65 @@ namespace SystemsDevProject
             return performances;
         }
 
-        //Method returns a user based on the provided username, password.
+        private List<Band> GetBands(int performanceID, OleDbConnection connection)
+        {
+            List<Band> bands = new List<Band>();
+            string query = "SELECT * FROM [Band] WHERE PerformanceID = " + performanceID + ";";
+            OleDbCommand command = new OleDbCommand(query, connection);
+            try
+            {
+                OleDbDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = (int)reader["ID"];
+                    string bandNumber = (string)reader["BandNumber"];
+                    double bandPrice = (int)reader["BandPrice"];
+                    Band newBand = new Band();
+                    newBand.BandID = id;
+                    newBand.BandNumber = bandNumber;
+                    newBand.BandPrice = bandPrice;
+                    newBand.BandSeats = GetSeats(id, connection);
+                    bands.Add(newBand);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            return bands;
+        }
+
+        private List<Seat> GetSeats(int bandID, OleDbConnection connection)
+        {
+            List<Seat> seats = new List<Seat>();
+            string query = "SELECT * FROM Seat WHERE BandID = " + bandID + ";";
+            OleDbCommand command = new OleDbCommand(query, connection);
+            try
+            {
+                OleDbDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    int id = (int)reader["ID"];
+                    int seatNumber = (int)reader["SeatNumber"];
+                    bool occupied = (bool)reader["Occupied"];
+                    Seat newSeat = new Seat();
+                    newSeat.SeatID = id;
+                    newSeat.SeatNumber = seatNumber;
+                    newSeat.Occupied = occupied;
+                    seats.Add(newSeat);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+            }
+            return seats;
+        }
+
         public User GetUser(string username, string password)
         {
             User user = null;
-            OleDbConnection connection = GetOleDbConnection();           
+            OleDbConnection connection = GetOleDbConnection();
             string userQuery = "SELECT * FROM [User] WHERE Username = '" + username + "' AND Password = '" + password + "';";
             OleDbCommand userCommand = new OleDbCommand(userQuery, connection);
             try
@@ -518,137 +573,5 @@ namespace SystemsDevProject
             }
             return userID;
         }
-
-        /*
-        //Returns a list of answers by using a provided id of a specific question.
-        private List<Answer> GetAnswers(int questionId, OleDbConnection connection)
-        {
-            List<Answer> answers = new List<Answer>();
-            //Query to select all answers which have a specific question_id.
-            string query = "SELECT * FROM Answer WHERE Question_Id = " + questionId + ";";
-            OleDbCommand answerCommand = new OleDbCommand(query, connection);
-            try
-            {
-                OleDbDataReader answerReader = answerCommand.ExecuteReader();
-                while (answerReader.Read())
-                {
-                    int id = (int)answerReader["ID"];
-                    string answerText = (string)answerReader["AnswerText"];
-                    bool correct = (bool)answerReader["Correct"];
-                    answers.Add(new Answer(id, answerText, correct));
-                }
-                //Checks if there are any answers at all.
-                if (answers.Count == 0)
-                {
-                    throw new Exception("Database is empty.");
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-            }
-            return answers;
-        }
-
-        //Returns a list of all the scores stored in the database to show in the leaderboards.
-        public List<Score> GetScores()
-        {
-            List<Score> scores = new List<Score>();
-            OleDbConnection connection = GetOleDbConnection();
-            //Nested Select query used to retrieve top 15 scores based on percentage of correctly answered questions and the time it took
-            //to complete the quiz.
-            string query = "SELECT TOP 15 * FROM (SELECT * FROM Score ORDER BY CorrectPercentage DESC, TimeTook ASC, PlayerName DESC);";
-            OleDbCommand scoreCommand = new OleDbCommand(query, connection);
-            try
-            {
-                connection.Open();
-                OleDbDataReader scoreReader = scoreCommand.ExecuteReader();
-                while (scoreReader.Read())
-                {
-                    int id = (int)scoreReader["ID"];
-                    double correctPercentage = (int)scoreReader["CorrectPercentage"];
-                    DateTime completed = (DateTime)scoreReader["Completed"];
-                    string playerName = (string)scoreReader["PlayerName"];
-                    int timeTook = (int)scoreReader["TimeTook"];
-                    int correctAnswers = (int)scoreReader["CorrectAnswers"];
-                    int questionNumber = (int)scoreReader["QuestionNumber"];
-                    Score newScore = new Score(id, correctAnswers, correctPercentage,
-                        playerName, completed, timeTook, questionNumber);
-                    //Check if it is a suitable score.
-                    if (newScore != null)
-                    {
-                        scores.Add(newScore);
-                    }
-                    else
-                    {
-                        throw new Exception("newScore object is null.");
-                    }
-                }
-                //Check if there are any score at all.
-                if (scores.Count == 0)
-                {
-                    throw new Exception("Database is empty.");
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return scores;
-        }
-
-        //Method is used to store the score of a completed quiz to a database.
-        public void AddScore(Score score)
-        {
-            OleDbConnection connection = GetOleDbConnection();
-            //Query used to find the highest id in the table.
-            string query = "SELECT ID FROM Score;";
-            OleDbCommand maxIDCommand = new OleDbCommand(query, connection);
-            int maxID = 0;
-            try
-            {
-                connection.Open();
-                OleDbDataReader maxIDReader = maxIDCommand.ExecuteReader();
-                while (maxIDReader.Read())
-                {
-                    if (maxID < (int)maxIDReader["ID"])
-                    {
-                        maxID = (int)maxIDReader["ID"];
-                    }
-                }
-                maxID++;
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-            }
-            finally
-            {
-                connection.Close();
-            }
-            //A query used to insert a new tuple into the table.
-            query = "INSERT INTO Score(ID, CorrectPercentage, Completed, PlayerName, TimeTook, CorrectAnswers, QuestionNumber)" +
-                "VALUES (" + maxID + " , " + score.CorrectPercentage + " , #" + score.Completed.Date + "# , '" +
-                 score.PlayerName + "' , " + score.TimeTook + " , " + score.CorrectAnswers + " , " + score.QuestionNumber + ");";
-            OleDbCommand scoreCommand = new OleDbCommand(query, connection);
-            try
-            {
-                connection.Open();
-                scoreCommand.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-        */
     }
 }
