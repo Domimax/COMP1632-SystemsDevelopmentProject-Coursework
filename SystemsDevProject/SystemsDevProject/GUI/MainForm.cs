@@ -9,12 +9,14 @@ namespace SystemsDevProject
 {
     public partial class MainForm : Form, ILogin
     {
+        public List<Play> AllPlays { get; set; }
         public User LoggedInUser { get; set; }
         public Booking CurrentBooking { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
+            AllPlays = DBSingleton.GetDBSingletonInstance.GetPlays();
             LoggedInUser = null;
             CurrentBooking = new Booking();
             CurrentBooking.BookingTickets = new List<Ticket>();

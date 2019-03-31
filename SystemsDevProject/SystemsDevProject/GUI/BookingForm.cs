@@ -13,8 +13,8 @@ namespace SystemsDevProject
         {
             InitializeComponent();
             UpperForm = upperForm;
-            List<Play> plays = DBSingleton.GetDBSingletonInstance.GetPlays();
-            label5.Text = String.Format("{0, 15} {1, 30} {2, 15} {3, 15}", "Name of Play", "Date of Performance", "Seat", "Price");
+            List<Play> plays = UpperForm.AllPlays;
+            label5.Text = String.Format("{0, 15} {1, 30} {2, 15} {3, 15} {4, 15}", "Name of Play", "Date of Performance", "Seat", "Price", "Discounted");
             foreach (Play play in plays)
             {
                 foreach (Performance performance in play.PlayPerformances)
@@ -27,8 +27,8 @@ namespace SystemsDevProject
                             {
                                 if (ticket.TicketSeat.SeatID == seat.SeatID)
                                 {
-                                    listBox1.Items.Add(String.Format("{0, 15} {1, 30} {2, 15} {3, 15}", play.PlayName, performance.PerformanceDate, band.BandNumber + seat.SeatNumber,
-                                        ticket.TicketPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"))));
+                                    listBox1.Items.Add(String.Format("{0, 15} {1, 30} {2, 15} {3, 15} {4, 15}", play.PlayName, performance.PerformanceDate, band.BandNumber + seat.SeatNumber,
+                                        ticket.TicketPrice.ToString("C", CultureInfo.CreateSpecificCulture("en-GB")), ticket.TicketType == "Discounted" ? "Yes" : "No"));
                                 }
                             }
                         }
@@ -41,13 +41,30 @@ namespace SystemsDevProject
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
             UpperForm.Show();
+            this.Close();
         }
 
         private void BookingForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Application.Exit();
+            if (UpperForm.Visible != true) {
+                Application.Exit();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //ticket removal
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //discount application
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //confirmation of booking
         }
     }
 }

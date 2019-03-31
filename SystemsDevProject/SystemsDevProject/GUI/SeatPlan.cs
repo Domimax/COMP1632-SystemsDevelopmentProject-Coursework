@@ -73,14 +73,12 @@ namespace SystemsDevProject
                         if (seat.Occupied == false)
                         {
                             button.BackColor = Color.Green;
-                            seat.Occupied = true;
                             SelectedSeats.Add(seat);
                             RecalculateSubtotal(band.BandPrice);
                         }
                         else
                         {
                             button.BackColor = Color.Gray;
-                            seat.Occupied = false;
                             SelectedSeats.Remove(seat);
                             RecalculateSubtotal(-band.BandPrice);
                         }
@@ -89,7 +87,8 @@ namespace SystemsDevProject
             }
         }
 
-        private void RecalculateSubtotal(double amount) {
+        private void RecalculateSubtotal(double amount)
+        {
             Subtotal += amount;
             label10.Text = Subtotal.ToString("C", CultureInfo.CreateSpecificCulture("en-GB"));
         }
@@ -97,24 +96,34 @@ namespace SystemsDevProject
         //call the dbsingletoninstance method insert list and send booking list to it
         private void Booking_Click(object sender, EventArgs e)
         {
-            foreach (Seat selectedSeat in SelectedSeats) {
-                Ticket ticket = new Ticket();
-                ticket.TicketSeat = selectedSeat;
-                foreach (Band band in UpperForm.ChosenPerformance.PerformanceBands)
+            if (SelectedSeats.Count != 0)
+            {
+                foreach (Seat selectedSeat in SelectedSeats)
                 {
-                    foreach (Seat seat in band.BandSeats)
+                    Ticket ticket = new Ticket();
+                    ticket.TicketSeat = selectedSeat;
+                    foreach (Band band in UpperForm.ChosenPerformance.PerformanceBands)
                     {
-                        if (seat.SeatID == selectedSeat.SeatID)
+                        foreach (Seat seat in band.BandSeats)
                         {
-                            ticket.TicketPrice = band.BandPrice;
-                            ticket.TicketType = "Regular";
-                            UpperForm.UpperForm.UpperForm.CurrentBooking.BookingTickets.Add(ticket);
+                            if (seat.SeatID == selectedSeat.SeatID)
+                            {
+                                seat.Occupied = true;
+                                ticket.TicketPrice = band.BandPrice;
+                                ticket.TicketType = "Regular";
+                                UpperForm.UpperForm.UpperForm.CurrentBooking.BookingTickets.Add(ticket);
+                            }
                         }
                     }
                 }
+                UpperForm.UpperForm.UpperForm.CurrentBooking.TotalCost += Subtotal;
+                MessageBox.Show("You have added the seats to your shopping basket.");
+                this.Hide();
+                this.Close();
             }
-            UpperForm.UpperForm.UpperForm.CurrentBooking.TotalCost += Subtotal;
-            this.Close();
+            else {
+                MessageBox.Show("You have not selected any seats.");
+            }
         }
     }
 }

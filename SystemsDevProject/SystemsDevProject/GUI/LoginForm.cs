@@ -16,7 +16,6 @@ namespace SystemsDevProject.GUI
         public MainForm UpperMainForm { get; set; }
         public ILogin UpperForm { get; set; }
 
-
         public LoginForm(MainForm upperMainForm, ILogin upperForm)
         {
             InitializeComponent();
@@ -37,6 +36,9 @@ namespace SystemsDevProject.GUI
             {
                 UpperMainForm.LoggedInUser = user;
                 UpperForm.UpdateLoggedInUserName();
+                UpperMainForm.CurrentBooking = new Booking();
+                UpperMainForm.CurrentBooking.BookingTickets = new List<Ticket>();
+                UpperMainForm.AllPlays = DBSingleton.GetDBSingletonInstance.GetPlays();
                 MessageBox.Show("You have logged in as: " + UpperMainForm.LoggedInUser.FirstName);
                 this.Close();
             }

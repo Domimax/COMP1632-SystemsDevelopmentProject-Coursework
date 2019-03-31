@@ -12,7 +12,6 @@ namespace SystemsDevProject.GUI
 {
     public partial class PlaysListForm : Form, ILogin
     {
-        public List<Play> AllPlays { get; set; }
         public Play ChosenPlay { get; set; }
         public MainForm UpperForm { get; set; }
 
@@ -21,8 +20,7 @@ namespace SystemsDevProject.GUI
         {
             InitializeComponent();
             UpperForm = upperForm;
-            AllPlays = DBSingleton.GetDBSingletonInstance.GetPlays();
-            foreach (Play play in AllPlays)
+            foreach (Play play in UpperForm.AllPlays)
             {
                 listBox1.Items.Add(play.PlayName);
             }
@@ -37,7 +35,7 @@ namespace SystemsDevProject.GUI
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            foreach (Play play in AllPlays)
+            foreach (Play play in UpperForm.AllPlays)
             {
                 if (play.PlayName.Equals(listBox1.SelectedItem))
                 {
