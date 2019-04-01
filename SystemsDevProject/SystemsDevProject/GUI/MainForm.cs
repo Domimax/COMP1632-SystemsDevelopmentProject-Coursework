@@ -58,6 +58,13 @@ namespace SystemsDevProject
             form.Show();
         }
 
+        //code for the 'make a booking' button
+        private void button5_Click(object sender, EventArgs e)
+        {
+            BookingForm form = new BookingForm(this);
+            form.Show();
+        }
+
         private void button6_Click(object sender, EventArgs e)
         {
             this.Hide();

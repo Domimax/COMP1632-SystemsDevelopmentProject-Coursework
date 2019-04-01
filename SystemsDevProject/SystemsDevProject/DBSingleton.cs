@@ -183,6 +183,7 @@ namespace SystemsDevProject
             {
                 MessageBox.Show(ex.ToString());
                 //System.Diagnostics.Debug.WriteLine("Exception: " + ex);
+<<<<<<< HEAD
             }
             finally
             {
@@ -215,6 +216,8 @@ namespace SystemsDevProject
             catch (Exception ex)
             {
                 Console.WriteLine("Failed. Error " + ex);
+=======
+>>>>>>> parent of 02bcbb9... Final Maks' work
             }
             finally
             {
@@ -228,6 +231,7 @@ namespace SystemsDevProject
             string query = "INSERT INTO Review ( ReviewDate, ReviewText, Rating, PlayID, UserID) VALUES ( '" + date + "' , '" + review + "' , '" + rating + "' , '" + playID + "' , '" + userID + "')";
             OleDbCommand playCommand = new OleDbCommand(query, connection);
 
+<<<<<<< HEAD
             try
             {
                 connection.Open();
@@ -266,11 +270,39 @@ namespace SystemsDevProject
             catch (Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+=======
+        //Roshaans stuff
+
+        //Get connection MY METHOD
+        public static OleDbConnection GetConnection()
+        {
+            String connectionString;
+            connectionString = @"Provider=Microsoft.JET.OLEDB.4.0;Data Source=I:\SystemsDev.mdb";
+            return new OleDbConnection(connectionString);
+        }
+
+        //Method to add a review to the database
+        public void WriteReview(string name, string review, DateTime date)
+        {
+            OleDbConnection connection = GetConnection();
+            //OleDbConnection connection = GetOleDbConnection();
+            string query = "INSERT INTO Review( [Date and Time of attendance], [Name of Performance], Review) VALUES( '" + date + "' , " + review + " )";
+            OleDbCommand cmd = new OleDbCommand(query, connection);
+            try
+            {
+                connection.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed. Error " + ex);
+>>>>>>> parent of 02bcbb9... Final Maks' work
             }
             finally
             {
                 connection.Close();
             }
+<<<<<<< HEAD
             return r;
         }
         public Receipt printReceipt(DateTime date, int i, double a, string performance, string fileName)
@@ -279,6 +311,10 @@ namespace SystemsDevProject
             r.printReceipt(fileName);
             return r;
         }
+=======
+        }
+
+>>>>>>> parent of 02bcbb9... Final Maks' work
         public List<String> GetPerformance(string s, List<String> list)
         {
             OleDbConnection connection = GetConnection();

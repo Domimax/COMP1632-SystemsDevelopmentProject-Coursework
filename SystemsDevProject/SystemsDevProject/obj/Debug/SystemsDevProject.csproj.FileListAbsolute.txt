@@ -25,6 +25,7 @@ C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.LoginForm.resources
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.RegisterForm.resources
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.SeatPlan.resources
+<<<<<<< HEAD
 I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csprojResolveAssemblyReference.cache
 I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.BookingForm.resources
 I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.LoginForm.resources
@@ -42,3 +43,5 @@ I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevPro
 I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe.config
 I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe
 I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.pdb
+=======
+>>>>>>> parent of 02bcbb9... Final Maks' work
