@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using SystemsDevProject.Model;
 
@@ -86,7 +79,9 @@ namespace SystemsDevProject.GUI
                 {
                     if (CheckAllInputs("Employee"))
                     {
-                        Employee employee = new Employee(textBox8.Text, int.Parse(textBox9.Text));
+                        Employee employee = (Employee)UserFactory.CreateUser("Employee");
+                        employee.Role = textBox8.Text;
+                        employee.Salary = int.Parse(textBox9.Text);
                         employee.InitialiseUser(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text,
                             textBox5.Text, textBox6.Text);
                         DBSingleton.GetDBSingletonInstance.RegisterEmployee(employee, textBox7.Text);
@@ -105,7 +100,8 @@ namespace SystemsDevProject.GUI
                 {
                     if (CheckAllInputs("Agency"))
                     {
-                        Agency agency = new Agency(textBox8.Text);
+                        Agency agency = (Agency)UserFactory.CreateUser("Agency");
+                        agency.AgencyName = textBox8.Text;
                         agency.InitialiseUser(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text,
                             textBox5.Text, textBox6.Text);
                         DBSingleton.GetDBSingletonInstance.RegisterAgency(agency, textBox7.Text);
@@ -122,7 +118,8 @@ namespace SystemsDevProject.GUI
             {
                 if (CheckAllInputs("Customer"))
                 {
-                    Customer customer = new Customer(dateTimePicker1.Value);
+                    Customer customer = (Customer)UserFactory.CreateUser("Customer");
+                    customer.DateOfBirth = dateTimePicker1.Value;
                     customer.InitialiseUser(textBox1.Text, textBox2.Text, textBox3.Text, textBox4.Text,
                         textBox5.Text, textBox6.Text);
                     DBSingleton.GetDBSingletonInstance.RegisterCustomer(customer, textBox7.Text);

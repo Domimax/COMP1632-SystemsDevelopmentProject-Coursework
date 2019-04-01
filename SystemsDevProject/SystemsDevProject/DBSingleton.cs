@@ -39,151 +39,22 @@ namespace SystemsDevProject
 
         }
 
-        //Dalia's stuff
-
-        //this method refreshes seats data and makes all seats available
-        public void refreshSeating(int id, BookingData bd)
+        public void InsertCardDetails(CardDetails cardDetails, int bookingID)
         {
-            String connection = @"Provider=Microsoft.JET.OLEDB.4.0; 
-				        Data Source =" + Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"DB\SystemsDevProjectDB.mdb");
-            OleDbConnection myConnection = new OleDbConnection(connection);
-            //quert to insert booking data
-            string query = "Insert into Booking Values(" + id + "," + "'" + bd.getcategory() + "'," + bd.getseatnumber() + ",'" + "available" + "')";
-            OleDbCommand Command = new OleDbCommand(query, myConnection);
-            try
-            {
-                Command.CommandType = CommandType.Text;
-                myConnection.Open();
-                //adding parameters to query
-                Command.Parameters.AddWithValue("@SeatType", bd.getcategory());
-                Command.Parameters.AddWithValue("@Number", bd.getseatnumber());
-                Command.Parameters.AddWithValue("@Availability", "available");
-                Command.ExecuteNonQuery();
-
-
-            }
-
-            catch (Exception ex)
-            {
-                //MessageBox.Show(ex.ToString());
-                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-            }
-            finally
-            {
-                myConnection.Close();
-            }
-
-        }
-        //insert booking data into db 
-        public void InsertList(List<BookingData> bookinglist)
-        {
-            foreach (BookingData item in bookinglist)
-            {
-                OleDbConnection connection = GetOleDbConnection();
-                //updating the booking values
-                string query = "Update Booking SET  Availability='booked' where SeatType='" + item.getcategory() + "' and Number=" + item.getseatnumber();
-                OleDbCommand Command = new OleDbCommand(query, connection);
-                try
-                {
-
-                    connection.Open();
-                    //query parameters
-                    Command.CommandType = CommandType.Text;
-                    Command.Parameters.AddWithValue("@Availability", "booked");
-
-                    Command.Parameters.AddWithValue("@SeatType", item.getcategory());
-                    Command.Parameters.AddWithValue("@Number", item.getseatnumber());
-                    Command.ExecuteNonQuery();
-
-                }
-
-
-                catch (Exception ex)
-                {
-                    //    MessageBox.Show(ex.ToString());
-                    System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-                }
-                finally
-                {
-                    connection.Close();
-                }
-            }
-        }
-        public List<BookingData> getBookingData()
-        {
-            //create a list of booking data
-            List<BookingData> bookinglist = new List<BookingData>();
-            OleDbConnection connection = GetOleDbConnection();
-            //write query to retreive all data
-            string query = "SELECT * from Booking ";
-            OleDbCommand Command = new OleDbCommand(query, connection);
-            try
-            {
-                connection.Open();
-                OleDbDataReader Reader = Command.ExecuteReader();
-                //reading each row after query execution
-                while (Reader.Read())
-                {
-                    int id = (int)Reader["ID"];
-                    string SeatType = (string)Reader["SeatType"];
-                    int Number = (int)Reader["Number"];
-                    string Availability = (string)Reader["Availability"];
-
-                    //creating object from each row and adding into booking list
-                    BookingData BD = new BookingData(Number, SeatType, Availability);
-                    bookinglist.Add(BD);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                //   MessageBox.Show(ex.ToString());
-                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-            }
-            finally
-            {
-                connection.Close();
-            }
-
-            return bookinglist;
-
-        }
-
-        public void InsertCardDetails(CardDetails cd)
-        {
-
             //insert query to add card details in database
             OleDbConnection connection = GetOleDbConnection();
-            string query = "insert into carddetails values ('" + cd.tickepurchase + "','" + cd.cardnumber + "','" + cd.cardtype + "','" + cd.MM + "','" + cd.YY + "','" + cd.CVV + "')";
-
-            OleDbCommand Command = new OleDbCommand(query, connection);
+            string query = "INSERT INTO CardDetails (NameOnCard, CardNumber, CardType, ExpirationDate, CVV, BookingID) VALUES ('" +
+                cardDetails.NameOnCard + "' , '" + cardDetails.CardNumber + "' , '" + cardDetails.CardType + "' , '"
+                + cardDetails.ExpirationDate + "' , '" + cardDetails.CVV + "' , '" + bookingID + "');";
+            OleDbCommand command = new OleDbCommand(query, connection);
             try
             {
-
                 connection.Open();
-                //adding parameters to query
-                Command.CommandType = CommandType.Text;
-
-
-                Command.Parameters.AddWithValue("@purchaselocation", cd.tickepurchase);
-
-                Command.Parameters.AddWithValue("@CardNumber", cd.cardnumber);
-
-                Command.Parameters.AddWithValue("@Type", cd.cardtype);
-                Command.Parameters.AddWithValue("@ExpiryDateMM", cd.MM);
-                Command.Parameters.AddWithValue("@ExpiryDateDD", cd.YY);
-                Command.Parameters.AddWithValue("@CVV", cd.CVV);
-
-                Command.ExecuteNonQuery();
-
+                command.ExecuteNonQuery();
             }
-
-
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
-                //System.Diagnostics.Debug.WriteLine("Exception: " + ex);
-<<<<<<< HEAD
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
             }
             finally
             {
@@ -191,156 +62,57 @@ namespace SystemsDevProject
             }
         }
 
-        //Roshaans stuff
-
-        //Get connection MY METHOD
-        public static OleDbConnection GetConnection()
+        public void InsertTicket(Ticket ticket, int bookingID)
         {
-            String connectionString;
-            connectionString = @"Provider=Microsoft.JET.OLEDB.4.0;Data Source=I:\SystemsDev.mdb";
-            return new OleDbConnection(connectionString);
-        }
-
-        //Method to add a review to the database
-        public void WriteReview(string name, string review, DateTime date)
-        {
-            OleDbConnection connection = GetConnection();
-            //OleDbConnection connection = GetOleDbConnection();
-            string query = "INSERT INTO Review( [Date and Time of attendance], [Name of Performance], Review) VALUES( '" + date + "' , " + review + " )";
-            OleDbCommand cmd = new OleDbCommand(query, connection);
-            try
-            {
-                connection.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed. Error " + ex);
-=======
->>>>>>> parent of 02bcbb9... Final Maks' work
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-        //Method to add a review to the databse
-        public void InsertReview(int playID, DateTime date, string review, int rating, int userID)
-        {
+            //insert query to add card details in database
             OleDbConnection connection = GetOleDbConnection();
-            string query = "INSERT INTO Review ( ReviewDate, ReviewText, Rating, PlayID, UserID) VALUES ( '" + date + "' , '" + review + "' , '" + rating + "' , '" + playID + "' , '" + userID + "')";
-            OleDbCommand playCommand = new OleDbCommand(query, connection);
-
-<<<<<<< HEAD
+            string query = "INSERT INTO Ticket (TicketPrice, TicketType, TicketDescription, BookingID, SeatID) VALUES ('" +
+                ticket.TicketPrice + "' , '" + ticket.TicketType + "' , '" + ticket.TicketDescription + "' , '"
+                + bookingID + "' , '" + ticket.TicketSeat.SeatID + "');";
+            string occupiedQuery = "UPDATE Seat SET Occupied = 1 " + "WHERE ID = " + ticket.TicketSeat.SeatID + ";";
+            OleDbCommand command = new OleDbCommand(query, connection);
+            OleDbCommand occupiedCommand = new OleDbCommand(occupiedQuery, connection);
             try
             {
                 connection.Open();
-                playCommand.ExecuteNonQuery();
+                command.ExecuteNonQuery();
+                occupiedCommand.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Sorry. Unable to save your review right now. Please try again later: " + ex);
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
             }
             finally
             {
                 connection.Close();
             }
         }
-        //Method to display existing reviews to the user
-        public List<String> readReview(int performanceID, List<String> r, List<int> i)
+
+        public int InsertBooking(Booking booking, int userID)
         {
-            //Creating a connection
+            int bookingID = 0;
+            //insert query to add card details in database
             OleDbConnection connection = GetOleDbConnection();
-            string query = "SELECT * FROM [Review] WHERE PlayID =" + performanceID;
-            OleDbCommand cmd = new OleDbCommand(query, connection);
-            OleDbDataReader reader;
-            //Clears the list on each instance to ensure reviews for other plays are not being stored
-            r.Clear();
-            i.Clear();
+            string query = "INSERT INTO [Booking] (BookingDate, TotalCost, CollectionType, UserID) VALUES ('" + booking.BookingDate +
+                "' , '" + booking.TotalCost + "' , '" + booking.CollectionType + "' , '" + userID + "');";
+            OleDbCommand command = new OleDbCommand(query, connection);
+            string bookingIDQuery = "SELECT MAX(ID) FROM [Booking];";
+            OleDbCommand bookingIDCommand = new OleDbCommand(bookingIDQuery, connection);
             try
             {
                 connection.Open();
-                reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    r.Add(reader["ReviewText"].ToString());
-                    i.Add((int)reader["Rating"]);
-                }
+                command.ExecuteNonQuery();
+                bookingID = (int)bookingIDCommand.ExecuteScalar();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString());
-=======
-        //Roshaans stuff
-
-        //Get connection MY METHOD
-        public static OleDbConnection GetConnection()
-        {
-            String connectionString;
-            connectionString = @"Provider=Microsoft.JET.OLEDB.4.0;Data Source=I:\SystemsDev.mdb";
-            return new OleDbConnection(connectionString);
-        }
-
-        //Method to add a review to the database
-        public void WriteReview(string name, string review, DateTime date)
-        {
-            OleDbConnection connection = GetConnection();
-            //OleDbConnection connection = GetOleDbConnection();
-            string query = "INSERT INTO Review( [Date and Time of attendance], [Name of Performance], Review) VALUES( '" + date + "' , " + review + " )";
-            OleDbCommand cmd = new OleDbCommand(query, connection);
-            try
-            {
-                connection.Open();
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed. Error " + ex);
->>>>>>> parent of 02bcbb9... Final Maks' work
+                System.Diagnostics.Debug.WriteLine("Exception: " + ex);
             }
             finally
             {
                 connection.Close();
             }
-<<<<<<< HEAD
-            return r;
-        }
-        public Receipt printReceipt(DateTime date, int i, double a, string performance, string fileName)
-        {
-            Receipt r = new Receipt(date, i, a, performance);
-            r.printReceipt(fileName);
-            return r;
-        }
-=======
-        }
-
->>>>>>> parent of 02bcbb9... Final Maks' work
-        public List<String> GetPerformance(string s, List<String> list)
-        {
-            OleDbConnection connection = GetConnection();
-            string query = ("SELECT * FROM Performance WHERE [Type of performance]='" + s + "' ");
-            OleDbCommand cmd = new OleDbCommand(query, connection);
-            OleDbDataReader reader;
-            list.Add("test");
-            list.Clear();
-            try
-            {
-                connection.Open();
-                reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    list.Add(reader["Name of"].ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error. Could not perform the requested action. Error: " + ex);
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return list;
+            return bookingID;
         }
 
         // Method returns a database connection.
@@ -523,7 +295,10 @@ namespace SystemsDevProject
                 OleDbDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    employee = new Employee((int)reader["ID"], (string)reader["Role"], (int)reader["Salary"]);
+                    employee = (Employee)UserFactory.CreateUser("Employee");
+                    employee.EmployeeID = (int)reader["ID"];
+                    employee.Role = (string)reader["Role"];
+                    employee.Salary = (int)reader["Salary"];
                 }
             }
             catch (Exception ex)
@@ -543,7 +318,9 @@ namespace SystemsDevProject
                 OleDbDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    agency = new Agency((int)reader["ID"], (string)reader["AgencyName"]);
+                    agency = (Agency)UserFactory.CreateUser("Agency");
+                    agency.AgencyID = (int)reader["ID"];
+                    agency.AgencyName = (string)reader["AgencyName"];
                 }
             }
             catch (Exception ex)
@@ -563,7 +340,9 @@ namespace SystemsDevProject
                 OleDbDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    customer = new Customer((int)reader["ID"], (DateTime)reader["DateOfBirth"]);
+                    customer = (Customer)UserFactory.CreateUser("Customer");
+                    customer.CustomerID = (int)reader["ID"];
+                    customer.DateOfBirth = (DateTime)reader["DateOfBirth"];
                 }
             }
             catch (Exception ex)

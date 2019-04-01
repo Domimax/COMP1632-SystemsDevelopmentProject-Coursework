@@ -25,23 +25,22 @@ C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.LoginForm.resources
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.RegisterForm.resources
 C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.SeatPlan.resources
-<<<<<<< HEAD
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csprojResolveAssemblyReference.cache
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.BookingForm.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.LoginForm.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.MainForm.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.PlayInfoForm.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.PlaysListForm.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.RegisterForm.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.SeatPlan.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.Properties.Resources.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.ReviewForm.resources
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csproj.GenerateResource.Cache
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csproj.CoreCompileInputs.cache
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.exe
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.pdb
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe.config
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe
-I:\01_04_2019\COMP1632-SystemsDevelopmentProject-Coursework-master\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.pdb
-=======
->>>>>>> parent of 02bcbb9... Final Maks' work
+C:\Users\Maks Domas Smirnov\Documents\GitHub\COMP1632-SystemsDevelopmentProject-Coursework\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.PaymentForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe.config
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.exe
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\bin\Debug\SystemsDevProject.pdb
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csprojResolveAssemblyReference.cache
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.BookingForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.LoginForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.MainForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.PaymentForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.PlayInfoForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.PlaysListForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.GUI.RegisterForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.SeatPlan.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.Properties.Resources.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.ReviewForm.resources
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csproj.GenerateResource.Cache
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.csproj.CoreCompileInputs.cache
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.exe
+I:\FINAL\MAKS\COMP1632-SystemsDevelopmentProject-Coursework-02bcbb9ae47b19989137e5e42445237d7711d89a\SystemsDevProject\SystemsDevProject\obj\Debug\SystemsDevProject.pdb

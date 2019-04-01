@@ -155,6 +155,7 @@
             this.button5.TabIndex = 18;
             this.button5.Text = "Remove discount from ticket";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // BookingForm
             // 

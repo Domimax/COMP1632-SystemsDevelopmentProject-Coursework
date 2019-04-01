@@ -71,7 +71,6 @@
       <DependentUpon>RegisterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Agency.cs" />
-    <Compile Include="Model\BookingData.cs" />
     <Compile Include="Model\CardDetails.cs" />
     <Compile Include="Model\Band.cs" />
     <Compile Include="Model\Booking.cs" />
@@ -92,13 +91,12 @@
     <Compile Include="Model\Employee.cs" />
     <Compile Include="Model\Performance.cs" />
     <Compile Include="Model\Play.cs" />
-    <Compile Include="GUI\Payment.cs">
+    <Compile Include="GUI\PaymentForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI\Payment.Designer.cs">
-      <DependentUpon>Payment.cs</DependentUpon>
+    <Compile Include="GUI\PaymentForm.Designer.cs">
+      <DependentUpon>PaymentForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Receipt.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,6 +115,7 @@
     <Compile Include="GUI\SeatPlan.Designer.cs">
       <DependentUpon>SeatPlan.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserFactory.cs" />
     <EmbeddedResource Include="GUI\BookingForm.resx">
       <DependentUpon>BookingForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -125,6 +124,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\PaymentForm.resx">
+      <DependentUpon>PaymentForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PlayInfoForm.resx">
       <DependentUpon>PlayInfoForm.cs</DependentUpon>

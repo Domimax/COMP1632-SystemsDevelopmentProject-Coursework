@@ -16,7 +16,8 @@ namespace SystemsDevProject.GUI
     {
         public PlaysListForm UpperForm { get; set; }
         public Performance ChosenPerformance { get; set; }
-        
+
+
         public PlayInfoForm(PlaysListForm upperForm)
         {
             InitializeComponent();
@@ -92,21 +93,6 @@ namespace SystemsDevProject.GUI
             if (UpperForm.Visible == false)
             {
                 Application.Exit();
-            }
-        }
-
-        //Update the lists everytime the form is load
-        private void PlayInfoForm_Load(object sender, EventArgs e)
-        {
-            
-            //A list to store the rating given, and a list to store the actual review
-             List<String> reviewList =  new List<String>();
-         List<int> reviewRating = new List<int>();
-            DBSingleton.GetDBSingletonInstance.readReview(UpperForm.ChosenPlay.PlayID, reviewList, reviewRating);
-            //for loop to add each review to the listbox
-                for (int i = 0; i < reviewList.Count; i++)
-            {
-                listBox2.Items.Add(reviewList[i] + "                       Rating (out of 5): " + reviewRating[i]);
             }
         }
     }

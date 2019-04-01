@@ -21,5 +21,10 @@ namespace SystemsDevProject.Model
         {
             DateOfBirth = dateOfBirth;
         }
+
+        public Customer()
+        {
+
+        }
     }
 }
