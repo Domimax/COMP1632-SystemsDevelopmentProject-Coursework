@@ -26,13 +26,14 @@ namespace SystemsDevProject
             pictureBox3.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dracula" + ".jpg");
             pictureBox4.ImageLocation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Basket" + ".jpg");
         }
-        
+
         public void UpdateLoggedInUserName()
         {
             this.label2.Text = "Logged in as: " + LoggedInUser.FirstName + " " + LoggedInUser.LastName;
         }
 
-        public void UpdateEnabledProperty(bool enabled) {
+        public void UpdateEnabledProperty(bool enabled)
+        {
             this.Enabled = enabled;
             this.Focus();
         }
@@ -41,13 +42,6 @@ namespace SystemsDevProject
         private void button3_Click(object sender, EventArgs e)
         {
             ReviewForm form = new ReviewForm();
-            form.Show();
-        }
-
-        //code for the 'make a booking' button
-        private void button5_Click(object sender, EventArgs e)
-        {
-            BookingForm form = new BookingForm(this);
             form.Show();
         }
 
@@ -65,8 +59,15 @@ namespace SystemsDevProject
 
         private void pictureBox4_Click(object sender, EventArgs e)
         {
-            BookingForm bookingForm = new BookingForm(this);
-            this.Hide();
+            if (CurrentBooking.BookingTickets.Count == 0)
+            {
+                MessageBox.Show("Your shopping basket is empty. Please browse our playslist and select your seats first  to checkout.");
+            }
+            else
+            {
+                BookingForm form = new BookingForm(this);
+                this.Hide();
+            }
         }
     }
 }

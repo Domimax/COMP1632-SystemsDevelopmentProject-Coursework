@@ -27,7 +27,7 @@ namespace SystemsDevProject
                 DateTime date = dateTimePicker1.Value;
                 try
                 {
-                    DBSingleton.GetDBSingletonInstance.WriteReview(name, review, date);
+                    
                     MessageBox.Show("Thank you. Your review has been saved");
                 }
                 catch (Exception ex)
