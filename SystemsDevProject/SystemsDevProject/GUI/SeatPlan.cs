@@ -58,11 +58,10 @@ namespace SystemsDevProject
                     }
                 }
             }
-            UpperForm.UpdateEnabledProperty(false);
             this.Show();
         }
 
-        public void MyButtonClick(object sender, EventArgs e)
+        void MyButtonClick(object sender, EventArgs e)
         {
             Button button = sender as Button;
             foreach (Band band in UpperForm.ChosenPerformance.PerformanceBands)
@@ -71,7 +70,7 @@ namespace SystemsDevProject
                 {
                     if (button.Name == band.BandNumber + seat.SeatNumber)
                     {
-                        if (button.BackColor == Color.Gray)
+                        if (seat.Occupied == false)
                         {
                             button.BackColor = Color.Green;
                             SelectedSeats.Add(seat);
@@ -119,16 +118,12 @@ namespace SystemsDevProject
                 }
                 UpperForm.UpperForm.UpperForm.CurrentBooking.TotalCost += Subtotal;
                 MessageBox.Show("You have added the seats to your shopping basket.");
+                this.Hide();
                 this.Close();
             }
             else {
                 MessageBox.Show("You have not selected any seats.");
             }
-        }
-
-        private void SeatPlan_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            UpperForm.UpdateEnabledProperty(true);
         }
     }
 }

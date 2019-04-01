@@ -7,22 +7,26 @@ using System.Threading.Tasks;
 namespace SystemsDevProject
 {
     //class to store card details as object
-    public class CardDetails
+    class CardDetails
     {
-        public int CardDetailsID { get; set; }
-        public string NameOnCard { get; set; }
-        public string CardNumber { get; set; }
-        public string CardType { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public string cardnumber { get; set; }
+
+        public string tickepurchase { get; set; }
+
+        public string cardtype { get; set; }
+        public string MM { get; set; }
+        public string YY { get; set; }
         public string CVV { get; set; }
 
-        public CardDetails(string nameOnCard, string cardNumber, string cardType, DateTime expirationDate, string cVV)
+        public CardDetails(string tp, string cn, string ct, string mm, string yy, string cvv)
         {
-            NameOnCard = nameOnCard;
-            CardNumber = cardNumber;
-            CardType = cardType;
-            ExpirationDate = expirationDate;
-            CVV = cVV;
+            tickepurchase = tp;
+            cardnumber = cn;
+            cardtype = ct;
+            MM = mm;
+            YY = yy;
+            CVV = cvv;
+
         }
     }
 }
