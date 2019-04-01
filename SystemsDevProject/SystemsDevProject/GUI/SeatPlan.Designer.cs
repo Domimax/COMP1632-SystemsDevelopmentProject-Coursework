@@ -941,7 +941,6 @@
             this.Name = "SeatPlan";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "SeatPlan";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SeatPlan_FormClosed);
             this.panel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);

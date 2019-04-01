@@ -41,96 +41,106 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
+            this.listBox2 = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(24, 76);
+            this.listBox1.Location = new System.Drawing.Point(18, 62);
+            this.listBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 84);
+            this.listBox1.Size = new System.Drawing.Size(91, 69);
             this.listBox1.TabIndex = 0;
             this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 32);
+            this.label1.Location = new System.Drawing.Point(16, 26);
+            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(110, 17);
+            this.label1.Size = new System.Drawing.Size(84, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Available Dates:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(281, 32);
+            this.label2.Location = new System.Drawing.Point(211, 26);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(49, 17);
+            this.label2.Size = new System.Drawing.Size(38, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Name:";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(284, 76);
+            this.label3.Location = new System.Drawing.Point(213, 62);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(62, 17);
+            this.label3.Size = new System.Drawing.Size(47, 13);
             this.label3.TabIndex = 3;
             this.label3.Text = "Duration";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(287, 123);
+            this.label4.Location = new System.Drawing.Point(215, 100);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 17);
+            this.label4.Size = new System.Drawing.Size(31, 13);
             this.label4.TabIndex = 4;
             this.label4.Text = "Cast:";
             // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(381, 32);
+            this.nameLabel.Location = new System.Drawing.Point(286, 26);
+            this.nameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.nameLabel.Name = "nameLabel";
-            this.nameLabel.Size = new System.Drawing.Size(46, 17);
+            this.nameLabel.Size = new System.Drawing.Size(35, 13);
             this.nameLabel.TabIndex = 5;
             this.nameLabel.Text = "label5";
             // 
             // durationLabel
             // 
             this.durationLabel.AutoSize = true;
-            this.durationLabel.Location = new System.Drawing.Point(384, 75);
+            this.durationLabel.Location = new System.Drawing.Point(288, 61);
+            this.durationLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.durationLabel.Name = "durationLabel";
-            this.durationLabel.Size = new System.Drawing.Size(46, 17);
+            this.durationLabel.Size = new System.Drawing.Size(35, 13);
             this.durationLabel.TabIndex = 6;
             this.durationLabel.Text = "label6";
             // 
             // castLabel
             // 
             this.castLabel.AutoSize = true;
-            this.castLabel.Location = new System.Drawing.Point(387, 123);
+            this.castLabel.Location = new System.Drawing.Point(290, 100);
+            this.castLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.castLabel.Name = "castLabel";
-            this.castLabel.Size = new System.Drawing.Size(46, 17);
+            this.castLabel.Size = new System.Drawing.Size(35, 13);
             this.castLabel.TabIndex = 7;
             this.castLabel.Text = "label7";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(537, 184);
+            this.pictureBox1.Location = new System.Drawing.Point(403, 150);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(210, 229);
+            this.pictureBox1.Size = new System.Drawing.Size(158, 186);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(24, 364);
+            this.button1.Location = new System.Drawing.Point(18, 296);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(107, 49);
+            this.button1.Size = new System.Drawing.Size(80, 40);
             this.button1.TabIndex = 9;
             this.button1.Text = "Go back?";
             this.button1.UseVisualStyleBackColor = true;
@@ -138,9 +148,10 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(287, 343);
+            this.button2.Location = new System.Drawing.Point(215, 279);
+            this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(111, 70);
+            this.button2.Size = new System.Drawing.Size(83, 57);
             this.button2.TabIndex = 10;
             this.button2.Text = "Select seats for the current date?";
             this.button2.UseVisualStyleBackColor = true;
@@ -148,10 +159,9 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(666, 20);
-            this.button3.Margin = new System.Windows.Forms.Padding(4);
+            this.button3.Location = new System.Drawing.Point(500, 16);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(121, 40);
+            this.button3.Size = new System.Drawing.Size(91, 32);
             this.button3.TabIndex = 11;
             this.button3.Text = "Log In/Register";
             this.button3.UseVisualStyleBackColor = true;
@@ -160,17 +170,27 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(607, 76);
+            this.label5.Location = new System.Drawing.Point(455, 62);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(136, 17);
+            this.label5.Size = new System.Drawing.Size(102, 13);
             this.label5.TabIndex = 12;
             this.label5.Text = "Logged in as: Guest";
             // 
+            // listBox2
+            // 
+            this.listBox2.FormattingEnabled = true;
+            this.listBox2.Location = new System.Drawing.Point(19, 150);
+            this.listBox2.Name = "listBox2";
+            this.listBox2.Size = new System.Drawing.Size(379, 108);
+            this.listBox2.TabIndex = 13;
+            // 
             // PlayInfoForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(600, 366);
+            this.Controls.Add(this.listBox2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -184,9 +204,11 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listBox1);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "PlayInfoForm";
             this.Text = "PlayInfoForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.PlayInfoForm_FormClosed);
+            this.Load += new System.EventHandler(this.PlayInfoForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -208,5 +230,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ListBox listBox2;
     }
 }

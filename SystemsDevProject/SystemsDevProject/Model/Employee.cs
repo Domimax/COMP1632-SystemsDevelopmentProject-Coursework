@@ -24,10 +24,5 @@ namespace SystemsDevProject.Model
             Role = role;
             Salary = salary;
         }
-
-        public Employee()
-        {
-
-        }
     }
 }

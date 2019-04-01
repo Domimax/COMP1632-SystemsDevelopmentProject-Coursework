@@ -21,10 +21,5 @@ namespace SystemsDevProject.Model
         {
             AgencyName = agencyName;
         }
-
-        public Agency()
-        {
-
-        }
     }
 }
